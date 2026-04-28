@@ -9,6 +9,8 @@ Route::inertia('/', 'welcome', [
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
+
+    Route::post('/seasons', [SeasonController::class, 'store']);
 });
 
 require __DIR__.'/settings.php';
