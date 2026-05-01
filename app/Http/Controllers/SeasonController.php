@@ -89,5 +89,44 @@ class SeasonController extends Controller
     public function destroy(Season $season)
     {
         //
+
+        if ($season->is_current === true) {
+            return redirect()->route('dashboard')->withErrors(['seasonError' => 'The current season cannot be deleted.']);
+
+        } else {
+            $season->delete();
+
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function setCurrent(Season $season)
+    {
+        // dd($season);/
+
+        if ($season->is_current === true) {
+            return redirect()->route('dashboard')->withErrors(['error' => 'This is already the current season.']);
+        } else {
+
+            try {
+                DB::beginTransaction();
+                // find current season, set to false, set sent season to true.
+
+                $currentSeason = Season::where('is_current', true)->firstOrFail();
+
+                $currentSeason->update(['is_current' => false]);
+
+                $season->update(['is_current' => true]);
+
+                DB::commit();
+
+                return redirect()->route('dashboard');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                Log::error('Unexpected error: '.$e->getMessage());
+
+                return response()->json(['error' => 'An unexpected error occurred'], 500);
+            }
+        }
     }
 }

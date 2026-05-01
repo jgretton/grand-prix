@@ -12,7 +12,8 @@ Route::inertia('/', 'welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::post('/seasons', [SeasonController::class, 'store']);
+    Route::resource('/seasons', SeasonController::class);
+    Route::patch('/seasons/{season}/set-current', [SeasonController::class, 'setCurrent'])->name('season.set-current');
 });
 
 require __DIR__.'/settings.php';

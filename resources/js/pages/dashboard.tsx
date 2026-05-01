@@ -40,7 +40,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { dashboard } from '@/routes';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, router, useForm } from '@inertiajs/react';
 import {
     EllipsisVerticalIcon,
     Loader2Icon,
@@ -50,8 +50,25 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-export default function Dashboard({ seasons, currentSeason }) {
+export default function Dashboard({ seasons, season }) {
     const [modalOpen, setModelOpen] = useState(false);
+
+    const { delete: destroy, processing } = useForm();
+
+    const handleSeasonChange = (seasonId: number) => {
+        router.get(
+            'dashboard',
+            { season: seasonId },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            },
+        );
+    };
+
+    const setAsCurrentSeason = () => {
+        router.patch(route('season.set-current', { season: season }));
+    };
 
     const NewSeasonDialog = () => (
         <Dialog onOpenChange={setModelOpen} open={modalOpen}>
@@ -154,26 +171,39 @@ export default function Dashboard({ seasons, currentSeason }) {
                 <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Current season</CardTitle>
+                            <CardTitle>Selected season</CardTitle>
                         </CardHeader>
                         <CardContent className="flex flex-row justify-between">
-                            <Select value={currentSeason[0].name}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Current Season" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        {seasons.map((season, index) => (
-                                            <SelectItem
-                                                value={season.name}
-                                                key={index}
-                                            >
-                                                {season.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                            <div className="flex items-center gap-5">
+                                <Select
+                                    value={String(season.id)}
+                                    onValueChange={(value) => {
+                                        handleSeasonChange(Number(value));
+                                    }}
+                                >
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Current Season" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            {seasons.map((current, index) => (
+                                                <SelectItem
+                                                    value={String(current.id)}
+                                                    key={index}
+                                                >
+                                                    {current.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                                {season.is_current === true && (
+                                    <p className="inline-flex items-center gap-1 text-xs text-green-800">
+                                        <span className="size-2 animate-pulse rounded-full bg-green-400" />
+                                        current season
+                                    </p>
+                                )}
+                            </div>
                             <div className="flex-end space-x-2">
                                 <NewSeasonDialog />
                                 <DropdownMenu>
@@ -184,12 +214,59 @@ export default function Dashboard({ seasons, currentSeason }) {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
                                         <DropdownMenuGroup>
-                                            <DropdownMenuItem>
-                                                Set as current season
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem variant="destructive">
-                                                <Trash2Icon /> Delete
-                                            </DropdownMenuItem>
+                                            <Form
+                                                {...SeasonController.setCurrent.form(
+                                                    { season: season },
+                                                )}
+                                                options={{
+                                                    preserveScroll: true,
+                                                }}
+                                            >
+                                                <DropdownMenuItem
+                                                    disabled={
+                                                        season.is_current ===
+                                                        true
+                                                    }
+                                                >
+                                                    <button
+                                                        type="submit"
+                                                        disabled={processing}
+                                                    >
+                                                        Set as current
+                                                    </button>
+                                                </DropdownMenuItem>
+                                            </Form>
+                                            <Form
+                                                {...SeasonController.destroy.form(
+                                                    { season: season },
+                                                )}
+                                                options={{
+                                                    preserveScroll: true,
+                                                }}
+                                            >
+                                                {({ errors, processing }) => (
+                                                    <>
+                                                        {errors.season && (
+                                                            <p className="text-sm text-red-500">
+                                                                {errors.season}
+                                                            </p>
+                                                        )}
+                                                        <DropdownMenuItem
+                                                            asChild
+                                                        >
+                                                            <button
+                                                                type="submit"
+                                                                disabled={
+                                                                    processing
+                                                                }
+                                                            >
+                                                                <Trash2Icon />{' '}
+                                                                Delete
+                                                            </button>
+                                                        </DropdownMenuItem>
+                                                    </>
+                                                )}
+                                            </Form>
                                         </DropdownMenuGroup>
                                     </DropdownMenuContent>
                                 </DropdownMenu>

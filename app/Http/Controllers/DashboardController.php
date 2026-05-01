@@ -11,15 +11,18 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // get all season data and which is current
-        $seasonData = Season::all(['name', 'is_current']);
-        $currentSeason = Season::where('is_current', true)->get();
+        // dd(Season::where('id', $request->get('season'))->first());
+
+        $season = $request->has('season') ? Season::findOrFail(request()->season) : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->firstOrFail();
+
+        $seasons = Season::all(['id', 'name', 'is_current']);
 
         return Inertia::render('dashboard', [
-            'seasons' => $seasonData,
-            'currentSeason' => $currentSeason,
+            'season' => $season,
+            'seasons' => $seasons,
         ]);
     }
 
