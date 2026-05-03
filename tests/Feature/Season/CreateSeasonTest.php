@@ -58,7 +58,3 @@ describe('Unauthenticated user', function () {
         $response->assertRedirect('/login');
     });
 });
-
-describe('Get request', function () {
-    test('for season data', function () {});
-});
