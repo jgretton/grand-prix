@@ -1,14 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal, Trash2Icon } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+import PlayersDropdownMenu from './players-dropdown-menu';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -38,6 +32,19 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
     {
         accessorKey: 'is_active',
         header: 'Status',
+        cell: ({ row }) => {
+            return (
+                <Badge
+                    variant={
+                        row.original.is_active === true
+                            ? 'secondary'
+                            : 'default'
+                    }
+                >
+                    {row.original.is_active === true ? 'Inactive' : 'Active'}
+                </Badge>
+            );
+        },
     },
     {
         accessorKey: 'actions',
@@ -45,25 +52,7 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
         cell: ({ row }) => {
             return (
                 <div className="mr-5 text-right">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Set Inavtive</DropdownMenuItem>
-                            <DropdownMenuItem>
-                                View Player Profile
-                            </DropdownMenuItem>
-                            <DropdownMenuItem variant="destructive">
-                                <Trash2Icon /> Delete Player
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <PlayersDropdownMenu player={row.original} />
                 </div>
             );
         },

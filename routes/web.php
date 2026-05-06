@@ -17,7 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/seasons/{season}/set-current', [SeasonController::class, 'setCurrent'])->name('season.set-current');
 
     Route::resource('/players', PlayerController::class);
-    // Route::post('/players/create', [PlayerController::class, 'store']);
+    Route::patch('/players/{player}/toggle-active', [PlayerController::class, 'toggleActive'])->name('players.toggle-active');
 });
 
 require __DIR__.'/settings.php';

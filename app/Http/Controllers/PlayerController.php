@@ -67,6 +67,13 @@ class PlayerController extends Controller
     public function update(Request $request, Player $player)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|string|max:190',
+        ]);
+
+        $player->update($validated);
+
+        return redirect()->back();
     }
 
     /**
@@ -75,5 +82,15 @@ class PlayerController extends Controller
     public function destroy(Player $player)
     {
         //
+        $player->delete();
+
+        return redirect()->back();
+    }
+
+    public function toggleActive(Player $player)
+    {
+        $player->update(['is_active' => ! $player->is_active]);
+
+        return redirect()->back();
     }
 }
