@@ -13,10 +13,13 @@ export default function CreateTournamentPage() {
                     description="Follow the instructions below to create a tournament for the grand-prix"
                 />
 
+                <div className=""></div>
+
                 {/*
                 
                     Create a form
                     - name (could be made from the date?)
+                    - Season seletor. (default to current season)
                     - some way to decide how many teams are at this session.
                     - then under the teams we can press a btton to bring up all player names. and allocate them to that team
                         - once allocated they are removed from the list.
