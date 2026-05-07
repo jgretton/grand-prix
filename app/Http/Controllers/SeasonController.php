@@ -41,7 +41,8 @@ class SeasonController extends Controller
 
             // check if there is a current season
             $currentSeason = Season::where('is_current', true)->first();
-            if ($currentSeason) {
+
+            if ($validated['is_current'] === true && $currentSeason) {
                 $currentSeason->update(['is_current' => false]);
             }
 
@@ -51,7 +52,7 @@ class SeasonController extends Controller
 
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
-            DB::rollBack();
+            // DB::rollBack();
             Log::error('Unexpected error: '.$e->getMessage());
 
             return response()->json(['error' => 'An unexpected error occurred'], 500);

@@ -38,6 +38,15 @@ describe('Authenticated user', function () {
             $response = post('/seasons', ['name' => 1, 'is_current' => true]);
             $response->assertInvalid(['name']);
         });
+
+        test('adding new non current season keeps current season true', function () {
+            post('/seasons', ['name' => '23/24', 'is_current' => true]);
+            post('/seasons', ['name' => '23/25', 'is_current' => false]);
+
+            assertDatabaseHas('seasons', ['name' => '23/24', 'is_current' => true]);
+            assertDatabaseHas('seasons', ['name' => '23/25', 'is_current' => false]);
+
+        });
     });
 
     test('setting a new season deactivates the current one', function () {

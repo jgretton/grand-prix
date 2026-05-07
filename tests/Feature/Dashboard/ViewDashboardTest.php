@@ -4,6 +4,8 @@ use App\Models\Season;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Pest\Laravel\post;
+
 pest()->use(RefreshDatabase::class);
 
 beforeEach(function () {
@@ -29,6 +31,22 @@ test('return selected season when query parameter is provided', function () {
 
     $response->assertInertia(fn ($page) => $page
         ->component('dashboard')
-        ->where('season.id', $selected->id)
-    );
+        ->has('season', fn ($page) => $page
+            ->where('id', $selected->id)->etc()
+        ));
+
+});
+
+test('return tournaments array for current selected season', function () {
+    $season = Season::factory()->isCurrent()->create();
+
+    $tournament = post('/tournament', ['name' => '26/04/2026', 'season_id' => $season->id]);
+
+    $response = $this->get(route('dashboard'));
+
+    $response->assertInertia(fn ($page) => $page
+        ->component('dashboard')
+        ->has('season', fn ($page) => $page
+            ->has('tournaments')->etc()
+        ));
 });

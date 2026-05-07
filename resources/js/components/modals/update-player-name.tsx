@@ -27,8 +27,6 @@ export default function UpdatePlayerNameModal({
     setModalOpen,
     player,
 }: Props) {
-    console.log(player);
-
     return (
         <Dialog onOpenChange={setModalOpen} open={modalOpen}>
             <DialogContent className="sm:max-w-sm">

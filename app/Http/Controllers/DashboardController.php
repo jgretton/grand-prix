@@ -13,64 +13,14 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        // get all season data and which is current
-        // dd(Season::where('id', $request->get('season'))->first());
 
-        $season = $request->has('season') ? Season::findOrFail(request()->season) : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->firstOrFail();
+        $season = $request->has('season') ? Season::where('id', request()->season)->with('tournaments')->first() : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->with('tournaments')->first();
 
-        $seasons = Season::all(['id', 'name', 'is_current']);
+        $seasons = Season::with('tournaments')->get(['id', 'name', 'is_current']);
 
         return Inertia::render('dashboard', [
             'season' => $season,
             'seasons' => $seasons,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -28,7 +28,7 @@ export default function PlayersDropdownMenu({ player }: { player: Player }) {
         router.patch(`players/${player.id}/toggle-active`);
     };
 
-    const StatusText = player.is_active === true ? 'active' : 'inactive';
+    const StatusText = player.is_active === true ? 'inactive' : 'active';
 
     return (
         <DropdownMenu>
@@ -42,7 +42,7 @@ export default function PlayersDropdownMenu({ player }: { player: Player }) {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => toggleActive()}>
-                    {player.is_active ? <CheckCircleIcon /> : <XCircleIcon />}{' '}
+                    {player.is_active ? <XCircleIcon /> : <CheckCircleIcon />}
                     Set player {StatusText}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setModalUpdateOpen(true)}>

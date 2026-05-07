@@ -1,6 +1,8 @@
+import Heading from '@/components/heading';
 import AddSeasonModal from '@/components/modals/add-season';
 import SeasonsDropdownMenu from '@/components/seasons/seasons-dropdown-menu';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Empty,
@@ -14,7 +16,7 @@ import {
 import { dashboard } from '@/routes';
 import { Season, Seasons } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { Table2Icon } from 'lucide-react';
+import { PlusIcon, Table2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 interface DashboardPageProps {
@@ -94,6 +96,38 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                         </div>
                     </CardContent>
                 </Card>
+
+                <div className="mt-10">
+                    <Heading title="Tournaments" />
+                    {season.tournaments?.length === 0 && (
+                        <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                            <Empty className="mx-auto w-full max-w-lg">
+                                <EmptyHeader className="max-w-md">
+                                    <EmptyMedia variant="icon">
+                                        <Table2Icon />
+                                    </EmptyMedia>
+                                    <EmptyTitle className="">
+                                        There are no tournaments for this
+                                        selected seasons
+                                    </EmptyTitle>
+                                    <EmptyDescription>
+                                        Please use the button below to start
+                                        making your first tournament
+                                    </EmptyDescription>
+                                </EmptyHeader>
+                                <EmptyContent className="flex-row justify-center gap-2">
+                                    <Button
+                                        onClick={() =>
+                                            router.get('/tournaments/create')
+                                        }
+                                    >
+                                        <PlusIcon /> New Tournament
+                                    </Button>
+                                </EmptyContent>
+                            </Empty>
+                        </div>
+                    )}
+                </div>
             </div>
         </>
     );

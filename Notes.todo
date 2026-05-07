@@ -1,0 +1,6 @@
+Bugs:
+    ✔ When creating a new season that is not set as current, it will change the current season to false. @done(26-05-07 13:50)
+
+Features:
+    ☐ In the season select add an indicator for the curent season.
+    ☐ When no season exists, first seaons creation is set to current season.

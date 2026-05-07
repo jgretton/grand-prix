@@ -37,11 +37,11 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
                 <Badge
                     variant={
                         row.original.is_active === true
-                            ? 'secondary'
-                            : 'default'
+                            ? 'default'
+                            : 'secondary'
                     }
                 >
-                    {row.original.is_active === true ? 'Inactive' : 'Active'}
+                    {row.original.is_active === true ? 'Active' : 'Inactive'}
                 </Badge>
             );
         },
