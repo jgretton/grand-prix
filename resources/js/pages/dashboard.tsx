@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/empty';
 
 import { dashboard } from '@/routes';
+import seasons from '@/routes/seasons';
 import { Season, Seasons } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { PlusIcon, Table2Icon } from 'lucide-react';
@@ -26,6 +27,8 @@ interface DashboardPageProps {
 
 export default function Dashboard({ seasons, season }: DashboardPageProps) {
     const [modalOpen, setModalOpen] = useState(false);
+
+    console.log(seasons);
 
     const handleSeasonChange = (seasonId: number) => {
         router.get(

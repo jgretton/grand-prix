@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTournamentRequest;
+use App\Models\Player;
+use App\Models\PlayerTeam;
+use App\Models\Season;
+use App\Models\Team;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,8 +28,15 @@ class TournamentController extends Controller
      */
     public function create()
     {
-        //
-        return Inertia::render('tournaments/create/index', []);
+
+        $activePlayers = Player::where('is_active', true)->select(['name', 'id', 'is_active'])->get();
+
+        $seasons = Season::get(['id', 'name', 'is_current']);
+
+        return Inertia::render('tournaments/create/index', [
+            'activePlayers' => $activePlayers,
+            'seasons' => $seasons,
+        ]);
 
     }
 
@@ -34,18 +45,29 @@ class TournamentController extends Controller
      */
     public function store(StoreTournamentRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $validated = $request->validated();
+            $tournament = Tournament::create(['name' => $validated['name'], 'season_id' => $validated['season_id']]);
 
-        // $validated = $request->validate(['name' => 'required|string|max:190', 'season_id' => 'exists:seasons,id']);
-        // dd($request);
-        DB::beginTransaction();
-        Tournament::create($request->validated());
-        // map over the teams, add the teams names.
-        // map over the players within the teams and add playerTeams.
+            // map over the teams, add the teams names.
 
-        DB::commit();
+            foreach ($validated['teams'] as $team) {
 
-        return redirect()->route('dashboard');
+                $createdTeam = Team::create(['name' => $team['name'], 'tournament_id' => $tournament->id]);
+
+                foreach ($team['players'] as $player) {
+                    PlayerTeam::create(['team_id' => $createdTeam->id, 'player_id' => $player]);
+                }
+            }
+            DB::commit();
+
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
     }
 
     /**

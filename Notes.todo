@@ -1,6 +1,12 @@
 Bugs:
     ✔ When creating a new season that is not set as current, it will change the current season to false. @done(26-05-07 13:50)
 
+To Implement:
+    ☐ Validation of query request.
+        - need to validate the query string on dashboard for season id. This way we are secure against bad actors.
+
 Features:
     ☐ In the season select add an indicator for the curent season.
     ☐ When no season exists, first seaons creation is set to current season.
+
+

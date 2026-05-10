@@ -16,42 +16,20 @@ describe('Authenticated user', function () {
     });
     test('can create tournament', function () {
         $season = Season::factory()->create();
-        $player = Player::factory()->create();
+        Player::factory()->count(5)->create();
 
-        /*
-
-            [
-                'name' => '26/04/2026',
-                'season_id' => $season->id
-                'teams' => [
-                    ['name' => 'Team 1', 'players' => [1, 2]],
-                    ['name' => 'Team 2', 'players' => [3, 4]],
-                ]
-            ]
-
-        */
-
-        $teams = ['name' => 'Team 1', 'players' => [$player->id]];
+        $teams = [['name' => 'Team 1', 'players' => [1, 2, 3]], ['name' => 'Team 2', 'players' => [4, 5]]];
 
         $tournament = post('/tournaments', ['name' => '26/04/2026', 'season_id' => $season->id, 'teams' => $teams]);
 
         assertDatabaseHas('tournaments', ['name' => '26/04/2026']);
-        assertDatabaseHas('teams', ['name' => 'Team 1']);
-        assertDatabaseHas('player_teams', ['name' => '26/04/2026']);
+        assertDatabaseHas('teams', ['name' => 'Team 2']);
+        assertDatabaseHas('player_teams', ['player_id' => 5]);
 
         $tournament->assertRedirect('dashboard');
 
     });
-    // test('can create tournament', function () {
-    //     $season = Season::factory()->create();
 
-    //     $tournament = post('/tournaments', ['name' => '26/04/2026', 'season_id' => $season->id]);
-
-    //     assertDatabaseHas('tournaments', ['name' => '26/04/2026']);
-
-    //     $tournament->assertRedirect('dashboard');
-
-    // });
     describe('Validation check', function () {
         test('for name as string', function () {
             $season = Season::factory()->create();

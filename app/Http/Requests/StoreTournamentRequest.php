@@ -16,11 +16,20 @@ class StoreTournamentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:190',
-            'season_id' => 'exists:seasons,id|required',
-            'teams' => 'array|required',
-            'teams.name' => 'string|required',
-            'teams.players' => 'array|required',
-            'teams.players.*' => 'exists:players,id|integer',
+            'season_id' => 'required|exists:seasons,id',
+            'teams' => 'required|array',
+            'teams.*.name' => 'required|string',
+            'teams.*.players' => 'required|array',
+            'teams.*.players.*' => 'required|integer|exists:players,id',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'teams.*.players.required' => 'You need to add players to the teams',
+            'name.required' => 'Tournament name is required',
+            'teams.required' => 'You need to add a team',
         ];
     }
 }

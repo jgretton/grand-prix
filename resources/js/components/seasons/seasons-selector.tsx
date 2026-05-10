@@ -9,19 +9,21 @@ import {
 import { Season, Seasons } from '@/types';
 
 interface SeasonsSelectorPageProps {
-    season: Season;
+    season?: Season;
     seasons: Seasons;
     handleSeasonChange: (value: number) => void;
+    tournamentSelect: number;
 }
 
 export default function SeasonsSelector({
     season,
     handleSeasonChange,
     seasons,
+    tournamentSelect,
 }: SeasonsSelectorPageProps) {
     return (
         <Select
-            value={String(season.id)}
+            value={season?.id ? String(season.id) : String(tournamentSelect)}
             onValueChange={(value) => {
                 handleSeasonChange(Number(value));
             }}
