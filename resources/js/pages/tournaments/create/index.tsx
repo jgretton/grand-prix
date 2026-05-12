@@ -55,8 +55,6 @@ const CreateTournamentForm = ({ seasons }: { seasons: Seasons }) => {
         });
     };
 
-    console.log(errors['teams.0.players']);
-
     return (
         <div className="">
             <Head title="Dashboard" />

@@ -20,7 +20,7 @@ class TournamentController extends Controller
     public function index()
     {
         //
-        return Inertia::render('tournaments.index', []);
+        // return Inertia::render('tournaments/index', []);
     }
 
     /**
@@ -62,7 +62,7 @@ class TournamentController extends Controller
             }
             DB::commit();
 
-            return redirect()->route('dashboard');
+            return redirect()->route('tournaments.show', $tournament);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -76,6 +76,13 @@ class TournamentController extends Controller
     public function show(Tournament $tournament)
     {
         //
+        // dd($tournament->name);
+        $fullTournament = $tournament->load(['teams.playerTeams.player']);
+
+        return Inertia::render('tournaments/index', [
+            'tournament' => $fullTournament,
+        ]);
+
     }
 
     /**

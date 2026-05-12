@@ -5,6 +5,11 @@ To Implement:
     ☐ Validation of query request.
         - need to validate the query string on dashboard for season id. This way we are secure against bad actors.
 
+    ✔ On tournament submission, if an empty team is submitted, it needs to be removed and not submitted. in the event of this, we then need to check the team names and re assign if a middle team is empty. @done(26-05-10 18:05)
+        - this was already there with the validation of teams requiring players.
+
+    ☐ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up.
+    
 Features:
     ☐ In the season select add an indicator for the curent season.
     ☐ When no season exists, first seaons creation is set to current season.

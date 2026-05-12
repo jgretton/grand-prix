@@ -14,9 +14,9 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
-        $season = $request->has('season') ? Season::where('id', request()->season)->with('tournaments')->first() : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->with('tournaments')->first();
+        $season = $request->has('season') ? Season::where('id', request()->season)->with('tournaments.teams.playerTeams')->first() : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->with('tournaments.teams.playerTeams')->first();
 
-        $seasons = Season::with('tournaments')->get(['id', 'name', 'is_current']);
+        $seasons = Season::get(['id', 'name', 'is_current']);
 
         return Inertia::render('dashboard', [
             'season' => $season,

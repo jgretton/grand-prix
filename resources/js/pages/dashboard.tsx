@@ -2,6 +2,7 @@ import Heading from '@/components/heading';
 import AddSeasonModal from '@/components/modals/add-season';
 import SeasonsDropdownMenu from '@/components/seasons/seasons-dropdown-menu';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
+import TournamentList from '@/components/tournaments/tournament-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -14,9 +15,8 @@ import {
 } from '@/components/ui/empty';
 
 import { dashboard } from '@/routes';
-import seasons from '@/routes/seasons';
 import { Season, Seasons } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PlusIcon, Table2Icon } from 'lucide-react';
 import { useState } from 'react';
 
@@ -28,7 +28,7 @@ interface DashboardPageProps {
 export default function Dashboard({ seasons, season }: DashboardPageProps) {
     const [modalOpen, setModalOpen] = useState(false);
 
-    console.log(seasons);
+    console.log(season);
 
     const handleSeasonChange = (seasonId: number) => {
         router.get(
@@ -101,8 +101,16 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                 </Card>
 
                 <div className="mt-10">
-                    <Heading title="Tournaments" />
-                    {season.tournaments?.length === 0 && (
+                    <div className="inline-flex w-full justify-between">
+                        <Heading title="Tournaments" />
+                        <Link href={'/tournaments/create'}>
+                            <Button>
+                                {' '}
+                                <PlusIcon /> New Tournament
+                            </Button>
+                        </Link>
+                    </div>
+                    {season.tournaments?.length === 0 ? (
                         <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                             <Empty className="mx-auto w-full max-w-lg">
                                 <EmptyHeader className="max-w-md">
@@ -129,6 +137,8 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                                 </EmptyContent>
                             </Empty>
                         </div>
+                    ) : (
+                        <TournamentList tournaments={season.tournaments} />
                     )}
                 </div>
             </div>
