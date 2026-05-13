@@ -18,6 +18,11 @@ Features:
 13.05.26:
     ✔ Think about the data structure for  keeping the round scores. @done(26-05-13 12:07)
     ✔ write test for creating and deleting rounds @done(26-05-13 12:07)
-    ☐ test for scoring a round.
-    ☐ link up to table.
+    ✔ test for scoring a round. @done(26-05-13 15:22)
+    
+    - add round will auto add a round to the back end. Look into use memo for front end to stop page refresh.
+    - when unfocus scores, send data to backen if number is different and input is not empty. check - post for first time, patch for updates.
+    - calculate scores at the end of the table.
+    - final scores to be calculated and sent to backend on completion of tournament.
+    - add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table.
 
