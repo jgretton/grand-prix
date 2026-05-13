@@ -15,3 +15,9 @@ Features:
     ☐ When no season exists, first seaons creation is set to current season.
 
 
+13.05.26:
+    ✔ Think about the data structure for  keeping the round scores. @done(26-05-13 12:07)
+    ✔ write test for creating and deleting rounds @done(26-05-13 12:07)
+    ☐ test for scoring a round.
+    ☐ link up to table.
+

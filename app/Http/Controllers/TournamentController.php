@@ -60,6 +60,10 @@ class TournamentController extends Controller
                     PlayerTeam::create(['team_id' => $createdTeam->id, 'player_id' => $player]);
                 }
             }
+
+            // Create round 1 of the tournament.
+            $tournament->rounds()->create(['round_number' => 1]);
+
             DB::commit();
 
             return redirect()->route('tournaments.show', $tournament);
@@ -77,7 +81,7 @@ class TournamentController extends Controller
     {
         //
         // dd($tournament->name);
-        $fullTournament = $tournament->load(['teams.playerTeams.player']);
+        $fullTournament = $tournament->load(['teams.playerTeams.player'])->load('rounds');
 
         return Inertia::render('tournaments/index', [
             'tournament' => $fullTournament,

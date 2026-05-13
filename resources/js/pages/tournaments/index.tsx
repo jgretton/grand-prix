@@ -10,17 +10,21 @@ export default function TournamentPage({
 }: {
     tournament: Tournament;
 }) {
-    const [rounds, setRounds] = useState([{ round: 1, team_scores: {} }]);
-    const [scores, setScores] = useState<
-        Record<number, Record<number, number>>
-    >({});
+    const [rounds, setRounds] = useState([{ round: 1, team_scores: [] }]);
 
-    const updateScore = (teamId: number, roundId: number, value: number) => {
-        setScores((prev) => ({
+    console.log(tournament);
+
+    const addRound = () => {
+        setRounds((prev) => [
             ...prev,
-            [teamId]: { ...prev[teamId], [roundId]: value },
-        }));
+            { round: rounds.length + 1, team_scores: [] },
+        ]);
     };
+
+    // const handleRoundScoreChange = (round, e) => {
+    //     const idx = rounds.findIndex((a) => a.round === round);
+    //     setRounds((prev) => [...prev, prev[round].team_scores:{ 'name' : 'hello'}]);
+    // };
 
     return (
         <>
@@ -59,82 +63,50 @@ export default function TournamentPage({
                         </Button>
                     </div>
                 </div>
-                <div className="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
-                    <table className="w-full min-w-[520px] border-collapse">
-                        <thead>
-                            <tr className="bg-zinc-50 dark:bg-zinc-800/50">
-                                <th className="px-4 py-3 text-left text-xs font-medium tracking-wide text-zinc-500 uppercase">
-                                    Team
-                                </th>
-                                {rounds.map((round) => (
-                                    <th
-                                        key={round.round}
-                                        className="min-w-[100px] px-4 py-3 text-center text-xs font-medium tracking-wide text-zinc-500 uppercase"
-                                    >
-                                        Round {round.round}
-                                    </th>
-                                ))}
-                                <th className="w-14 px-4 py-3 text-center">
-                                    <button
-                                        // onClick={addRound}
-                                        className="mx-auto flex h-7 w-7 items-center justify-center rounded-full border border-dashed border-zinc-300 text-zinc-400 transition-colors hover:border-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:border-zinc-600 dark:hover:bg-zinc-700"
-                                    >
-                                        +
-                                    </button>
-                                </th>
-                                <th className="min-w-[64px] bg-zinc-100 px-4 py-3 text-center text-xs font-medium tracking-wide text-zinc-500 uppercase dark:bg-zinc-800">
-                                    Total
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {tournament.teams.map((team, i) => (
-                                <tr
-                                    key={team.id}
-                                    className="border-t border-zinc-100 transition-colors hover:bg-zinc-50/50 dark:border-zinc-800 dark:hover:bg-zinc-800/30"
-                                >
-                                    <td className="px-4 py-3">
-                                        <div className="flex items-center gap-2.5">
-                                            <span className="h-2.5 w-2.5 flex-shrink-0 rounded-full" />
-                                            <span className="text-sm font-medium">
-                                                {team.name}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    {rounds.map((round) => (
-                                        <td
-                                            key={round.round}
-                                            className="px-4 py-3"
-                                        >
-                                            <input
-                                                type="number"
-                                                min={0}
-                                                value={
-                                                    scores[team.id]?.[
-                                                        round.round
-                                                    ] ?? ''
-                                                }
-                                                onChange={(e) =>
-                                                    updateScore(
-                                                        team.id,
-                                                        round.round,
-                                                        Number(e.target.value),
-                                                    )
-                                                }
-                                                className="mx-auto block h-9 w-16 rounded-md border border-zinc-200 bg-white text-center text-sm font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900"
-                                            />
-                                        </td>
-                                    ))}
-                                    <td className="px-4 py-3" />
-                                    <td className="bg-zinc-50 px-4 py-3 text-center text-sm font-semibold dark:bg-zinc-800/50">
-                                        {Object.values(
-                                            scores[team.id] ?? {},
-                                        ).reduce((a, b) => a + b, 0)}
-                                    </td>
-                                </tr>
+
+                <div
+                    className="grid w-full gap-x-3 p-4 text-center"
+                    style={{
+                        gridTemplateColumns: `auto repeat(${rounds.length}, 3rem) 1fr auto`,
+                    }}
+                >
+                    <div className="col-span-full grid grid-cols-subgrid border-b py-2">
+                        <div />
+                        {rounds.map((round) => (
+                            <p className="">{round.round}</p>
+                        ))}
+                        <button
+                            className="text-left"
+                            onClick={() => addRound()}
+                        >
+                            Add round
+                        </button>
+                        <p>Scores</p>
+                    </div>
+                    {tournament.teams?.map((team) => (
+                        <div
+                            className="col-span-full grid grid-cols-subgrid border-b py-4"
+                            key={team.id}
+                        >
+                            <div className="border-r-2 px-4">
+                                <p>{team.name}</p>
+                            </div>
+                            {rounds.map((round) => (
+                                <input
+                                    className="rounded-sm border-2 px-2 py-0.5 text-center"
+                                    // onChange={(e) =>
+                                    //     handleRoundScoreChange(
+                                    //         round.round,
+                                    //         team.name,
+                                    //         e,
+                                    //     )
+                                    // }
+                                />
                             ))}
-                        </tbody>
-                    </table>
+                            <div />
+                            <p>23</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>
