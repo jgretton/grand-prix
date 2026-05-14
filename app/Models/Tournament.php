@@ -15,6 +15,13 @@ class Tournament extends Model
 
     protected $fillable = ['name', 'season_id'];
 
+    protected function casts(): array
+    {
+        return [
+            'is_completed' => 'boolean',
+        ];
+    }
+
     protected $appends = ['player_count'];
 
     public function season(): BelongsTo

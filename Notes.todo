@@ -4,7 +4,6 @@ Bugs:
 To Implement:
     ☐ Validation of query request.
         - need to validate the query string on dashboard for season id. This way we are secure against bad actors.
-
     ✔ On tournament submission, if an empty team is submitted, it needs to be removed and not submitted. in the event of this, we then need to check the team names and re assign if a middle team is empty. @done(26-05-10 18:05)
         - this was already there with the validation of teams requiring players.
 
@@ -13,6 +12,7 @@ To Implement:
 Features:
     ☐ In the season select add an indicator for the curent season.
     ☐ When no season exists, first seaons creation is set to current season.
+    ☐ implement loading state for adding round to tournament table for visual feeedback.
 
 
 13.05.26:
@@ -20,8 +20,17 @@ Features:
     ✔ write test for creating and deleting rounds @done(26-05-13 12:07)
     ✔ test for scoring a round. @done(26-05-13 15:22)
     
-    - add round will auto add a round to the back end. Look into use memo for front end to stop page refresh.
-    - when unfocus scores, send data to backen if number is different and input is not empty. check - post for first time, patch for updates.
+14.05.26:
+     ✔ add round will auto add a round to the back end. Look into use memo for front end to stop page refresh. @started(26-05-14 09:14) @done(26-05-14 09:59) @lasted(45m17s)
+    ✘ when unfocus scores, send data to backen if number is different and input is not empty. check - post for first time, patch for updates. @started(26-05-14 10:00) @cancelled(26-05-14 11:07) @wasted(1h7m29s)
+    Rework tournament score submissions:
+        ✔ Write tests for submitting tournament scores. @started(26-05-14 11:34) @done(26-05-14 12:10) @lasted(36m55s)
+        ☐ Write validation test
+        ☐ Implement Logic
+        ✔ Clean up unused controllers - Round, RoundScore. Clean up Web.php @done(26-05-14 13:41)
+        ✔ Implement front end @started(26-05-14 13:41) @done(26-05-14 16:02) @lasted(2h21m1s)
+        ☐ Pretty up the front end, componentise the table so can be shown when complete.
+        ☐ Look into adding Zustand?
     - calculate scores at the end of the table.
     - final scores to be calculated and sent to backend on completion of tournament.
     - add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table.

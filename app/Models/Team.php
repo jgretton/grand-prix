@@ -23,4 +23,9 @@ class Team extends Model
     {
         return $this->hasMany(PlayerTeam::class);
     }
+
+    public function roundScores(): HasMany
+    {
+        return $this->hasMany(RoundScore::class);
+    }
 }

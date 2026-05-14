@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\RoundController;
-use App\Http\Controllers\RoundScoreController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\TournamentSubmissionController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -22,13 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/players', PlayerController::class);
     Route::patch('/players/{player}/toggle-active', [PlayerController::class, 'toggleActive'])->name('players.toggle-active');
 
-    // Route::post('/tournaments', [TournamentController::class, 'store'])->name('tournament.store');
-
     Route::resource('tournaments', TournamentController::class);
-
-    Route::resource('tournaments.rounds', RoundController::class)->only(['store', 'destroy']);
-
-    Route::resource('tournaments.rounds.roundscores', RoundScoreController::class)->only(['store', 'destroy']);
+    Route::post('/tournaments/{tournament}/submit', TournamentSubmissionController::class);
 });
 
 require __DIR__.'/settings.php';

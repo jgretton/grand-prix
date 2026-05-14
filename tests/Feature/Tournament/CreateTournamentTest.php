@@ -2,7 +2,6 @@
 
 use App\Models\Player;
 use App\Models\Season;
-use App\Models\Tournament;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -28,21 +27,6 @@ describe('Authenticated user', function () {
         assertDatabaseHas('player_teams', ['player_id' => 5]);
 
         $tournament->assertRedirect();
-
-    });
-
-    test('creates round 1 automatically when tournament is created', function () {
-        $season = Season::factory()->create();
-
-        Player::factory()->count(5)->create();
-
-        $teams = [['name' => 'Team 1', 'players' => [1, 2, 3]], ['name' => 'Team 2', 'players' => [4, 5]]];
-
-        $tournament = post('/tournaments', ['name' => '26/04/2026', 'season_id' => $season->id, 'teams' => $teams]);
-
-        $tournament = Tournament::first();
-
-        assertDatabaseHas('rounds', ['round_number' => 1, 'tournament_id' => $tournament->id]);
 
     });
 

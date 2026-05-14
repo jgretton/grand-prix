@@ -37,7 +37,7 @@ class RoundController extends Controller
 
         Round::create(['round_number' => $validated['round_number'], 'tournament_id' => $tournament->id]);
 
-        return redirect()->back();
+        return redirect()->route('tournaments.index', $tournament);
     }
 
     /**

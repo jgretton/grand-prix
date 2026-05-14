@@ -13,6 +13,21 @@ export type Tournament = {
     season_id: number;
     player_count?: number;
     teams?: Team[];
+    rounds: Round[];
+    is_completed: boolean;
 };
 
+export type Round = {
+    id?: number;
+    round_number: number;
+    tournament_id?: number;
+    round_scores: RoundScore[];
+};
+
+export type RoundScore = {
+    id?: number;
+    team_id: number;
+    round_id?: number;
+    score: number;
+};
 export type Seasons = Season[];
