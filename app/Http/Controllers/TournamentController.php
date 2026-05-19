@@ -78,7 +78,7 @@ class TournamentController extends Controller
     {
         //
         // dd($tournament->name);
-        $fullTournament = $tournament->load(['teams.playerTeams.player'])->load('rounds.roundScores');
+        $fullTournament = $tournament->load(['teams.playerTeams.player'])->load('rounds.roundScores')->load('season:id,name');
 
         return Inertia::render('tournaments/index', [
             'tournament' => $fullTournament,

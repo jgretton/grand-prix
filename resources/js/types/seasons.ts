@@ -15,6 +15,7 @@ export type Tournament = {
     teams?: Team[];
     rounds: Round[];
     is_completed: boolean;
+    season?: Season;
 };
 
 export type Round = {

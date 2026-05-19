@@ -30,8 +30,13 @@ Features:
         ✔ Clean up unused controllers - Round, RoundScore. Clean up Web.php @done(26-05-14 13:41)
         ✔ Implement front end @started(26-05-14 13:41) @done(26-05-14 16:02) @lasted(2h21m1s)
         ☐ Pretty up the front end, componentise the table so can be shown when complete.
+            ✔ added state for status of tournament. Displayed different sections depending on state. @done(26-05-18 13:07)
+            - update table visuals
+                - need to make the center sections scrollable for mobile.
+            - add completed state that shows the tournament in winning order, maybe player names below the team names?
+            
         ☐ Look into adding Zustand?
-    - calculate scores at the end of the table.
+    ✔ calculate scores at the end of the table. @done(26-05-18 11:41)
     - final scores to be calculated and sent to backend on completion of tournament.
     - add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table.
 
