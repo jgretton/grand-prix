@@ -40,7 +40,7 @@ class TournamentSubmissionController extends Controller
 
             DB::commit();
 
-            return redirect()->back();
+            return redirect()->route('tournaments.show', $tournament);
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

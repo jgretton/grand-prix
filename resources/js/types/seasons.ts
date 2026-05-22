@@ -31,4 +31,10 @@ export type RoundScore = {
     round_id?: number;
     score: number;
 };
+export type FinalScore = {
+    team: Team;
+    final_score: number;
+    round_scores: RoundScore[];
+};
+
 export type Seasons = Season[];

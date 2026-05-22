@@ -76,12 +76,30 @@ class TournamentController extends Controller
      */
     public function show(Tournament $tournament)
     {
-        //
-        // dd($tournament->name);
+
+        // get final results.
+        $finalScores = [];
+        if ($tournament->is_completed === true) {
+
+            $t = $tournament->load('rounds.roundScores');
+            $finalScores = $t->teams->map(function ($team) {
+                return [
+                    'team' => $team->only(['id', 'name']),
+                    'round_scores' => $team->roundScores,
+                    'final_score' => $team->roundScores->sum('score'),
+                ];
+
+            });
+
+            $finalScores = $finalScores->sortByDesc('final_score')->values();
+        }
+
         $fullTournament = $tournament->load(['teams.playerTeams.player'])->load('rounds.roundScores')->load('season:id,name');
 
         return Inertia::render('tournaments/index', [
             'tournament' => $fullTournament,
+            'finalScores' => $finalScores,
+
         ]);
 
     }

@@ -4,7 +4,13 @@ import SeasonsDropdownMenu from '@/components/seasons/seasons-dropdown-menu';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
 import TournamentList from '@/components/tournaments/tournament-list';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Card,
+    CardAction,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import {
     Empty,
     EmptyContent,
@@ -27,8 +33,6 @@ interface DashboardPageProps {
 
 export default function Dashboard({ seasons, season }: DashboardPageProps) {
     const [modalOpen, setModalOpen] = useState(false);
-
-    console.log(season);
 
     const handleSeasonChange = (seasonId: number) => {
         router.get(
@@ -60,6 +64,7 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                             <AddSeasonModal
                                 setModalOpen={setModalOpen}
                                 modalOpen={modalOpen}
+                                isFirstSeason
                             />
                         </EmptyContent>
                     </Empty>
@@ -73,30 +78,31 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <Card>
-                    <CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle>Selected season</CardTitle>
+                        <CardAction className="space-x-2">
+                            <SeasonsDropdownMenu season={season} />
+                            <AddSeasonModal
+                                setModalOpen={setModalOpen}
+                                modalOpen={modalOpen}
+                            />
+                        </CardAction>
                     </CardHeader>
-                    <CardContent className="flex flex-row justify-between">
-                        <div className="flex items-center gap-5">
+                    <CardContent className="flex flex-col justify-between gap-5 sm:flex-row">
+                        <div className="flex flex-1 items-center gap-5">
                             <SeasonsSelector
                                 season={season}
                                 seasons={seasons}
                                 handleSeasonChange={handleSeasonChange}
                             />
                             {season.is_current === true && (
-                                <p className="inline-flex items-center gap-1 text-xs text-green-800">
+                                <p className="inline-flex shrink-0 items-center gap-1 text-xs text-green-800">
                                     <span className="size-2 animate-pulse rounded-full bg-green-400" />
-                                    current season
+                                    active season
                                 </p>
                             )}
                         </div>
-                        <div className="flex-end space-x-2">
-                            <AddSeasonModal
-                                setModalOpen={setModalOpen}
-                                modalOpen={modalOpen}
-                            />
-                            <SeasonsDropdownMenu season={season} />
-                        </div>
+                        <div className="flex-end space-x-2"></div>
                     </CardContent>
                 </Card>
 
@@ -105,7 +111,6 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                         <Heading title="Tournaments" />
                         <Link href={'/tournaments/create'}>
                             <Button>
-                                {' '}
                                 <PlusIcon /> New Tournament
                             </Button>
                         </Link>

@@ -1,42 +1,90 @@
 import Heading from '@/components/heading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Collapsible } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import tournaments from '@/routes/tournaments';
-import { Round, Tournament } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { PencilIcon, PlayIcon, PlusIcon, XIcon } from 'lucide-react';
+import type { FinalScore, Round, Tournament } from '@/types';
+import { Head, useForm } from '@inertiajs/react';
+import {
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@radix-ui/react-collapsible';
+import {
+    ChevronDownIcon,
+    PencilIcon,
+    PlayIcon,
+    PlusIcon,
+    TrophyIcon,
+    XIcon,
+} from 'lucide-react';
 import { useState } from 'react';
+
+type TournamentStatus = 'not-started' | 'in-progress' | 'completed';
+
+const StatusText: Record<TournamentStatus, string> = {
+    'in-progress': 'In Progress',
+    'not-started': 'Not Started',
+    completed: 'Completed',
+};
+
+const BadgeClassName: Record<TournamentStatus, string> = {
+    'in-progress':
+        'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
+    'not-started': '',
+    completed:
+        'bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300',
+};
+
+function StatusBadge({ status }: { status: TournamentStatus }) {
+    return (
+        <Badge variant={'secondary'} className={BadgeClassName[status]}>
+            {status !== 'not-started' && (
+                <div
+                    className={cn(
+                        ` ${(status === 'completed' && 'bg-green-700') || (status === 'in-progress' && 'animate-pulse bg-blue-700')} size-2 rounded-full`,
+                    )}
+                />
+            )}
+            {StatusText[status]}
+        </Badge>
+    );
+}
 
 export default function TournamentPage({
     tournament,
+    finalScores,
 }: {
     tournament: Tournament;
+    finalScores: FinalScore[];
 }) {
-    const [roundsData, setRoundsData] = useState<Round[]>([
-        { round_number: 1, round_scores: [{ team_id: 1, score: 21 }] },
-    ]);
+    const { data, setData, post, processing, errors } = useForm<{
+        rounds: Round[];
+    }>({
+        rounds: [{ round_number: 1, round_scores: [] }],
+    });
 
-    const [tournamentStatus, setTournamentStatus] = useState<
-        'not-started' | 'in-progress' | 'completed'
-    >(
-        tournament.is_completed === true
-            ? 'completed'
-            : tournament.rounds.length > 1
-              ? 'in-progress'
-              : 'not-started',
-    );
+    console.log(errors);
+
+    const [localStatus, setLocalStatus] = useState<
+        'not-started' | 'in-progress'
+    >(tournament.rounds.length > 1 ? 'in-progress' : 'not-started');
+
+    const tournamentStatus: TournamentStatus = tournament.is_completed
+        ? 'completed'
+        : localStatus;
 
     const handleRoundScoreChange = (
         roundNumber: number,
         teamId: number,
-        e: React.InputEvent,
+        e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        // console.log(roundNumber, teamId, e.target.value);
-        setRoundsData((prev) =>
-            prev.map((round) =>
+        setData(
+            'rounds',
+            data.rounds.map((round) =>
                 round.round_number === roundNumber
                     ? {
                           ...round,
@@ -64,72 +112,43 @@ export default function TournamentPage({
         );
     };
 
-    const submitroundScores = () => {
-        router.post(`/tournaments/${tournament.id}/submit`, {
-            rounds: roundsData,
-        });
+    const submitRoundScores = () => {
+        post(`/tournaments/${tournament.id}/submit`);
     };
 
     const teamSumScores = (teamId: number) => {
         let score = 0;
 
-        roundsData.map((round) => {
+        data.rounds.forEach((round) => {
             let teamScore = round.round_scores.find(
                 (team) => team.team_id === teamId,
             )?.score;
 
-            if (isNaN(teamScore)) teamScore = 0;
+            if (isNaN(teamScore as number)) {
+                teamScore = 0;
+            }
 
-            return (score += Number(teamScore));
+            score += Number(teamScore);
         });
 
-        if (isNaN(score)) score = 0;
+        if (isNaN(score)) {
+            score = 0;
+        }
 
         return score;
     };
+
     const addRound = () => {
-        setRoundsData((prev) => [
-            ...prev,
-            { round_number: roundsData.length + 1, round_scores: [] },
+        setData('rounds', [
+            ...data.rounds,
+            { round_number: data.rounds.length + 1, round_scores: [] },
         ]);
     };
 
     const deleteRound = (roundNumber: number) => {
-        setRoundsData((prev) =>
-            prev.filter((round) => round.round_number !== roundNumber),
-        );
-    };
-
-    const StatusBadge = () => {
-        const StatusText = {
-            'in-progress': 'In Progress',
-            'not-started': 'Not Started',
-            completed: 'Completed',
-        };
-
-        const BadgeClassName = {
-            'in-progress':
-                'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300',
-            'not-started': '',
-            completed:
-                'bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300',
-        };
-
-        return (
-            <Badge
-                variant={'secondary'}
-                className={BadgeClassName[tournamentStatus]}
-            >
-                {tournamentStatus !== 'not-started' && (
-                    <div
-                        className={cn(
-                            ` ${(tournamentStatus === 'completed' && 'bg-green-700') || (tournamentStatus === 'in-progress' && 'animate-pulse bg-blue-700')} size-2 rounded-full`,
-                        )}
-                    />
-                )}
-
-                {StatusText[tournamentStatus]}
-            </Badge>
+        setData(
+            'rounds',
+            data.rounds.filter((round) => round.round_number !== roundNumber),
         );
     };
 
@@ -147,10 +166,10 @@ export default function TournamentPage({
                                 {tournament.season?.name}
                             </span>
                         </p>
-                        | <StatusBadge />
+                        | <StatusBadge status={tournamentStatus} />
                     </div>
                     <div className="mt-10">
-                        {tournamentStatus === 'not-started' ? (
+                        {tournamentStatus === 'not-started' && (
                             <>
                                 <Heading title="Teams" />
                                 <div className="flex w-full flex-row flex-wrap gap-5">
@@ -181,7 +200,7 @@ export default function TournamentPage({
                                     <Button
                                         className="self-end"
                                         onClick={() =>
-                                            setTournamentStatus('in-progress')
+                                            setLocalStatus('in-progress')
                                         }
                                     >
                                         <PlayIcon />
@@ -189,124 +208,231 @@ export default function TournamentPage({
                                     </Button>
                                 </div>
                             </>
-                        ) : (
-                            // <div className="">Teams confirmed</div>
-                            <div className="flex flex-col items-center justify-between sm:flex-row sm:gap-4">
-                                <Heading
-                                    title="Teams"
-                                    description="Teams have been confirmed, you can now start
-                                    scoring below. To change the teams click the
-                                    edit button"
-                                />
-                                <Button
-                                    variant={'outline'}
-                                    className="w-full sm:w-auto"
-                                    onClick={() =>
-                                        setTournamentStatus('not-started')
-                                    }
-                                >
-                                    <PencilIcon /> Edit Teams
-                                </Button>
-                            </div>
                         )}
                     </div>
                 </div>
                 {tournamentStatus === 'in-progress' && (
-                    <div className="border-t pt-10">
-                        <Heading title="Scoring" />
+                    <>
+                        <div className="flex flex-col items-center justify-between sm:flex-row sm:gap-4">
+                            <Heading
+                                title="Teams"
+                                description="Teams have been confirmed, you can now start
+                                    scoring below. To change the teams click the
+                                    edit button"
+                            />
+                            <Button
+                                variant={'outline'}
+                                className="w-full sm:w-auto"
+                                onClick={() => setLocalStatus('not-started')}
+                            >
+                                <PencilIcon /> Edit Teams
+                            </Button>
+                        </div>
+                        <div className="border-t pt-10">
+                            <Heading title="Scoring" />
+                            <div
+                                className="grid w-full gap-x-3 rounded-md border text-center"
+                                style={{
+                                    gridTemplateColumns: `auto repeat(${data.rounds.length}, 3rem) 1fr auto`,
+                                }}
+                            >
+                                <div className="col-span-full grid grid-cols-subgrid border-b bg-gray-100 px-4 py-2">
+                                    <div />
+                                    {data.rounds.map((round, idx) => (
+                                        <div
+                                            className="inline-flex place-content-center items-center gap-1"
+                                            key={round.round_number}
+                                        >
+                                            <p className="text-center text-sm font-semibold text-muted-foreground">
+                                                R{round.round_number}
+                                            </p>
+                                            {data.rounds.length === idx + 1 &&
+                                                data.rounds.length > 1 && (
+                                                    <Button
+                                                        size={'icon'}
+                                                        className="shrink-0"
+                                                        variant={'ghost'}
+                                                        onClick={() =>
+                                                            deleteRound(
+                                                                round.round_number,
+                                                            )
+                                                        }
+                                                    >
+                                                        <XIcon size={12} />
+                                                    </Button>
+                                                )}
+                                        </div>
+                                    ))}
+                                    <Button
+                                        className="border-dashed bg-none text-left"
+                                        onClick={() => addRound()}
+                                        variant={'secondary'}
+                                        size={'icon'}
+                                    >
+                                        <PlusIcon />
+                                    </Button>
+                                    <p className="self-center px-2 text-center text-sm">
+                                        Scores
+                                    </p>
+                                </div>
+                                {tournament.teams?.map((team) => (
+                                    <div
+                                        className="col-span-full grid grid-cols-subgrid border-b py-4"
+                                        key={team.id}
+                                    >
+                                        <div className="place-content-center border-r-2 px-4">
+                                            <p className="font-medium">
+                                                {team.name}
+                                            </p>
+                                        </div>
+                                        {data.rounds.map((round) => {
+                                            const teamScore =
+                                                round.round_scores.find(
+                                                    (t) =>
+                                                        Number(t.team_id) ===
+                                                        Number(team.id),
+                                                )?.score;
+
+                                            return (
+                                                <Input
+                                                    className="rounded-sm border-2 px-2 py-0.5 text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                                    value={teamScore}
+                                                    key={round.round_number}
+                                                    onChange={(e) =>
+                                                        handleRoundScoreChange(
+                                                            round.round_number,
+                                                            Number(team.id),
+                                                            e,
+                                                        )
+                                                    }
+                                                />
+                                            );
+                                        })}
+                                        <div />
+                                        <p className="sticky self-center border-l font-medium">
+                                            {teamSumScores(team.id)}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <Button
+                                className="mt-10 w-full md:w-fit md:self-end"
+                                onClick={submitRoundScores}
+                                disabled={processing}
+                            >
+                                {processing ? 'Submitting...' : 'Submit score'}
+                            </Button>
+                        </div>
+                    </>
+                )}
+
+                {tournamentStatus === 'completed' && (
+                    <div>
+                        <Card className="mb-10 border-amber-300 bg-amber-50">
+                            <CardContent className="flex flex-row items-center justify-between gap-6">
+                                <TrophyIcon size={40} color="gold" />
+                                <div className="flex-1">
+                                    <p className="text-xs font-medium text-muted-foreground uppercase">
+                                        Winner
+                                    </p>
+                                    <p className="text-lg">
+                                        {finalScores[0].team.name}
+                                    </p>
+                                </div>
+                                <p className="flex flex-col items-end text-2xl/tight font-medium">
+                                    {finalScores[0].final_score}
+                                    <span className="text-sm font-normal">
+                                        points
+                                    </span>
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Heading title="Final scores" />
                         <div
                             className="grid w-full gap-x-3 rounded-md border text-center"
                             style={{
-                                gridTemplateColumns: `auto repeat(${roundsData.length}, 3rem) 1fr auto`,
+                                gridTemplateColumns: `auto 1fr repeat(${tournament.rounds.length}, 3rem)  auto`,
                             }}
                         >
                             <div className="col-span-full grid grid-cols-subgrid border-b bg-gray-100 px-4 py-2">
+                                <div className="text-center">#</div>
                                 <div />
-                                {roundsData.map((round, idx) => (
+                                {tournament.rounds.map((round) => (
                                     <div
                                         className="inline-flex place-content-center items-center gap-1"
                                         key={round.round_number}
                                     >
-                                        <p className="text-center text-sm font-medium text-muted-foreground">
-                                            {round.round_number}
+                                        <p className="text-center text-sm font-semibold text-muted-foreground">
+                                            R{round.round_number}
                                         </p>
-                                        {roundsData.length === idx + 1 &&
-                                            roundsData.length > 1 && (
-                                                <Button
-                                                    size={'icon'}
-                                                    className="shrink-0"
-                                                    variant={'ghost'}
-                                                    onClick={() =>
-                                                        deleteRound(
-                                                            round.round_number,
-                                                        )
-                                                    }
-                                                >
-                                                    <XIcon size={12} />
-                                                </Button>
-                                            )}
                                     </div>
                                 ))}
-                                <Button
-                                    className="border-dashed bg-none text-left"
-                                    onClick={() => addRound()}
-                                    variant={'secondary'}
-                                    size={'icon'}
-                                >
-                                    <PlusIcon />
-                                </Button>
+
                                 <p className="self-center px-2 text-center text-sm">
                                     Scores
                                 </p>
                             </div>
-                            {tournament.teams?.map((team) => (
+                            {finalScores.map((team, idx) => (
                                 <div
-                                    className="col-span-full grid grid-cols-subgrid border-b py-4"
-                                    key={team.id}
+                                    className="col-span-full grid grid-cols-subgrid border-b px-4 py-4"
+                                    key={team.team.id}
                                 >
-                                    <div className="place-content-center border-r-2 px-4">
+                                    <div className="place-content-center text-center">
+                                        {idx + 1}
+                                    </div>
+                                    <div className="border-r-2 px-4 text-left">
                                         <p className="font-medium">
-                                            {team.name}
+                                            {team.team.name}
                                         </p>
                                     </div>
-                                    {roundsData.map((round) => {
-                                        const teamScore =
-                                            round.round_scores.find(
-                                                (t) =>
-                                                    Number(t.team_id) ===
-                                                    Number(team.id),
-                                            )?.score;
+                                    {team.round_scores.map((round) => (
+                                        <p>{round.score}</p>
+                                    ))}
 
-                                        return (
-                                            <Input
-                                                // type="number"
-                                                className="rounded-sm border-2 px-2 py-0.5 text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                                                value={teamScore}
-                                                key={round.round_number}
-                                                onChange={(e) =>
-                                                    handleRoundScoreChange(
-                                                        round.round_number,
-                                                        Number(team.id),
-                                                        e,
-                                                    )
-                                                }
-                                            />
-                                        );
-                                    })}
-                                    <div />
                                     <p className="sticky self-center border-l font-medium">
-                                        {teamSumScores(team.id)}
+                                        {team.final_score}
                                     </p>
                                 </div>
                             ))}
                         </div>
-
-                        <Button
-                            className="mt-10 w-full md:w-fit md:self-end"
-                            onClick={() => submitroundScores()}
-                        >
-                            Submit score
-                        </Button>
+                        <div className="mt-10">
+                            <Collapsible>
+                                <CollapsibleTrigger asChild>
+                                    <Button
+                                        variant="secondary"
+                                        className="group w-full"
+                                    >
+                                        Teams
+                                        <ChevronDownIcon className="ml-auto group-data-[state=open]:rotate-180" />
+                                    </Button>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent>
+                                    <div className="flex w-full flex-row flex-wrap">
+                                        {tournament.teams?.map((team) => (
+                                            <ul
+                                                key={team.id}
+                                                className="grid min-w-3xs gap-2 p-4"
+                                            >
+                                                <li className="mb-1 text-base font-semibold">
+                                                    {team.name}
+                                                </li>
+                                                {team.player_teams.map(
+                                                    (player) => (
+                                                        <li
+                                                            key={player.id}
+                                                            className="text-sm text-muted-foreground"
+                                                        >
+                                                            {player.player.name}
+                                                        </li>
+                                                    ),
+                                                )}
+                                            </ul>
+                                        ))}
+                                    </div>
+                                </CollapsibleContent>
+                            </Collapsible>
+                        </div>
                     </div>
                 )}
             </div>

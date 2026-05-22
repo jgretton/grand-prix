@@ -39,6 +39,10 @@ class SeasonController extends Controller
         try {
             DB::beginTransaction();
 
+            if (! Season::exists()) {
+                $validated['is_current'] = true;
+            }
+
             // check if there is a current season
             $currentSeason = Season::where('is_current', true)->first();
 
@@ -92,7 +96,7 @@ class SeasonController extends Controller
         //
 
         if ($season->is_current === true) {
-            return redirect()->route('dashboard')->withErrors(['seasonError' => 'The current season cannot be deleted.']);
+            return redirect()->route('dashboard')->withErrors(['seasonError' => 'The active season cannot be deleted.']);
 
         } else {
             $season->delete();
