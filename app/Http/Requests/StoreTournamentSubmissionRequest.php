@@ -44,12 +44,12 @@ class StoreTournamentSubmissionRequest extends FormRequest
 
             foreach ($this->input('rounds', []) as $index => $round) {
                 $submittedTeamIds = collect($round['round_scores'])->pluck('team_id')->map(fn ($id) => (int) $id)->sort()->values()->toArray();
-
                 if ($expectedTeamIds !== $submittedTeamIds) {
-                    $validator->errors()->add(
-                        "rounds.{$index}.round_scores",
-                        'All teams must have a score for this round.'
-                    );
+                    $missingTeamIds = array_diff($expectedTeamIds, $submittedTeamIds);
+                    foreach ($missingTeamIds as $teamId) {
+                        $validator->errors()->add("rounds.{$index}.round_scores.{$teamId}", 'Score required');
+                    }
+                    $validator->errors()->add('rounds.allTeams', 'All teams require a score');
                 }
             }
 

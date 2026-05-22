@@ -285,7 +285,7 @@ export default function TournamentPage({
                                                 {team.name}
                                             </p>
                                         </div>
-                                        {data.rounds.map((round) => {
+                                        {data.rounds.map((round, idx) => {
                                             const teamScore =
                                                 round.round_scores.find(
                                                     (t) =>
@@ -295,7 +295,7 @@ export default function TournamentPage({
 
                                             return (
                                                 <Input
-                                                    className="rounded-sm border-2 px-2 py-0.5 text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                                                    className={`rounded-sm border-2 px-2 py-0.5 text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${(errors[`rounds.${idx}.round_scores`] || errors[`rounds.${idx}.round_scores.${team.id}`]) && 'border-red-500'}`}
                                                     value={teamScore}
                                                     key={round.round_number}
                                                     onChange={(e) =>
@@ -315,9 +315,14 @@ export default function TournamentPage({
                                     </div>
                                 ))}
                             </div>
+                            {errors['rounds.allTeams'] && (
+                                <p className="mt-2 text-sm text-red-500">
+                                    {errors['rounds.allTeams']}
+                                </p>
+                            )}
 
                             <Button
-                                className="mt-10 w-full md:w-fit md:self-end"
+                                className="mt-3 w-full md:w-fit md:self-end"
                                 onClick={submitRoundScores}
                                 disabled={processing}
                             >

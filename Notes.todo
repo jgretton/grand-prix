@@ -72,6 +72,10 @@ Tournemtnt index:
         ✔ filter completed tournaments and not started ones. @done(26-05-20 13:08)
     Delete Modal:
         ✔ update ui, error message is under the button and not in a good place. (delete current season to see this) @done(26-05-20 12:32)
-
+22.05.26:
+    ☐ front end error handling for tournament submission.
+    ☐ Think about how user can edit teams in tournament index.
+    ☐ Componantise the tournament index page.
+    ☐ Test for player scores.
 
 
