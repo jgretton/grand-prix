@@ -18,6 +18,8 @@ export type Tournament = {
     season?: Season;
 };
 
+export type TournamentStatus = 'not-started' | 'in-progress' | 'completed';
+
 export type Round = {
     id?: number;
     round_number: number;
