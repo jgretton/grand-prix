@@ -5,7 +5,6 @@ import { Season } from '@/types';
 import { Form } from '@inertiajs/react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -39,51 +38,44 @@ export default function DeleteSeasonModal({
                         associated with it. This action cannot be undone.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel variant="outline">
-                        Cancel
-                    </AlertDialogCancel>
-                    <Form
-                        {...SeasonController.destroy.form({ season: season })}
-                        options={{
-                            preserveScroll: true,
-                        }}
-                        onSuccess={() => setModalOpen(false)}
-                        onError={(errors) => {
-                            setModalOpen(true);
-                            console.log(errors);
-                        }}
-                    >
-                        {({ errors, processing }) => (
-                            <>
-                                <AlertDialogAction
-                                    variant="destructive"
-                                    asChild
+                <Form
+                    {...SeasonController.destroy.form({ season: season })}
+                    options={{
+                        preserveScroll: true,
+                    }}
+                    onSuccess={() => setModalOpen(false)}
+                >
+                    {({ errors, processing }) => (
+                        <>
+                            <AlertDialogFooter>
+                                <Button
+                                    className="w-full sm:w-auto"
+                                    variant={'destructive'}
+                                    disabled={processing}
+                                    type="submit"
                                 >
-                                    <Button
-                                        className="w-full"
-                                        disabled={processing}
-                                        type="submit"
-                                    >
-                                        {processing ? (
-                                            <>
-                                                <LoaderCircleIcon className="animate-spin" />{' '}
-                                                Deleting
-                                            </>
-                                        ) : (
-                                            'Delete'
-                                        )}
-                                    </Button>
-                                </AlertDialogAction>
-                                {errors.seasonError && (
-                                    <p className="text-sm text-red-500">
-                                        {errors.seasonError}
-                                    </p>
-                                )}
-                            </>
-                        )}
-                    </Form>
-                </AlertDialogFooter>
+                                    {processing ? (
+                                        <>
+                                            <LoaderCircleIcon className="animate-spin" />{' '}
+                                            Deleting
+                                        </>
+                                    ) : (
+                                        'Delete'
+                                    )}
+                                </Button>
+
+                                <AlertDialogCancel variant="outline">
+                                    Cancel
+                                </AlertDialogCancel>
+                            </AlertDialogFooter>
+                            {errors.seasonError && (
+                                <p className="mt-2 text-right text-sm text-red-500">
+                                    {errors.seasonError}
+                                </p>
+                            )}
+                        </>
+                    )}
+                </Form>
             </AlertDialogContent>
         </AlertDialog>
     );

@@ -55,7 +55,6 @@ export default function DeletePlayerModal({
                         onSuccess={() => setModalOpen(false)}
                         onError={(errors) => {
                             setModalOpen(true);
-                            console.log(errors);
                         }}
                     >
                         {({ errors, processing }) => (

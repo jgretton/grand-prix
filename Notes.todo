@@ -7,12 +7,29 @@ To Implement:
     ✔ On tournament submission, if an empty team is submitted, it needs to be removed and not submitted. in the event of this, we then need to check the team names and re assign if a middle team is empty. @done(26-05-10 18:05)
         - this was already there with the validation of teams requiring players.
 
-    ☐ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up.
     
 Features:
-    ☐ In the season select add an indicator for the curent season.
-    ☐ When no season exists, first seaons creation is set to current season.
-    ☐ implement loading state for adding round to tournament table for visual feeedback.
+ ☐ handle what happens when 2 teams have the same score! so i should return new finalscores with field rank so i can show order.
+ ☐ need to think about pagination for the tournament and player page (look into infinite scroll)
+    - player page needs filtering for active and inactive.
+
+Application:
+    ☐ no front end error handling on tournament submission page
+
+Dashboard:
+    ☐ sseason selector is off screen when name is small. width problem maybe?
+Tournament create:
+    ☐ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up.
+    ☐ ui is not response enough.
+    ☐ cannot create tournament with a single team.
+
+
+Tournemtnt index:
+    ☐ need to make the center sections scrollable for mobile in scoring table
+    ☐ add teams at bottom of completed page
+    ☐ allow editing of teams on tournament page.
+    ☐ refactor the page.
+
 
 
 13.05.26:
@@ -34,9 +51,27 @@ Features:
             - update table visuals
                 - need to make the center sections scrollable for mobile.
             - add completed state that shows the tournament in winning order, maybe player names below the team names?
-            
         ☐ Look into adding Zustand?
     ✔ calculate scores at the end of the table. @done(26-05-18 11:41)
-    - final scores to be calculated and sent to backend on completion of tournament.
-    - add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table.
+    ✔ final scores to be calculated and sent to backend on completion of tournament. @done(26-05-21 12:39)
+    ✔ add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table. @done(26-05-21 12:39)
+
+19.05.26:
+    ✔ When tournament is completed, return modified data to show winning table. @done(26-05-20 10:53)
+    ✔ When submitting tournament results, we need to show a visual then move to completed and refresh the page. At the moment when submitted nothing happens, then you click again and it errors as data already exists. @done(26-05-20 10:53)
+    ✔ added state for status of tournament. Displayed different sections depending on state. @done(26-05-18 13:07)
+    ✔ update table visuals @done(26-05-20 10:54)
+    ✔ add completed state that shows the tournament in winning order, maybe player names below the team names? @done(26-05-20 10:54)
+    
+    
+20.05.26:
+    Dashboard:
+        ✔ Make season selector mobile responsive @done(26-05-20 11:54)
+        ✔ In the season select add an indicator for the curent season. @done(26-05-20 11:54)
+        ✔ When no season exists, first seaons creation is set to current season. (checkbox will be ticked and cannot be unticked.) @done(26-05-20 12:16)
+        ✔ filter completed tournaments and not started ones. @done(26-05-20 13:08)
+    Delete Modal:
+        ✔ update ui, error message is under the button and not in a good place. (delete current season to see this) @done(26-05-20 12:32)
+
+
 

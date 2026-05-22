@@ -50,7 +50,7 @@ export default function TeamCard({ team, errorMessage }: TeamCardProps) {
 
     return (
         <Card
-            className={`flex h-full w-full shrink-0 justify-between ${errorMessage && 'border-red-500'}`}
+            className={`flex h-full w-full shrink-0 justify-between ${errorMessage && 'border-red-500'} ${isDraggedOver && 'bg-blue-50 ring-2 ring-blue-400'}`}
             ref={columnRef}
         >
             <CardHeader>
@@ -65,10 +65,20 @@ export default function TeamCard({ team, errorMessage }: TeamCardProps) {
                 </CardAction>
             </CardHeader>
 
-            <CardContent className="flex-1">
-                {team.players.map((player, idx) => (
-                    <PlayerCard player={player} key={idx} teamId={team.id} />
-                ))}
+            <CardContent className="flex flex-1 flex-col gap-2">
+                {team.players.length === 0 ? (
+                    <div className="flex h-full items-center justify-center rounded-md border-2 border-dashed py-4 text-sm text-gray-400">
+                        Drag players here
+                    </div>
+                ) : (
+                    team.players.map((player, idx) => (
+                        <PlayerCard
+                            player={player}
+                            key={idx}
+                            teamId={team.id}
+                        />
+                    ))
+                )}
             </CardContent>
 
             <CardFooter className="flex-end grid gap-2">
@@ -78,6 +88,9 @@ export default function TeamCard({ team, errorMessage }: TeamCardProps) {
                     open={openPLayerSelectModal}
                     setOpen={setOpenPlayerSelectModal}
                 />
+                <p className="text-center text-xs text-muted-foreground">
+                    Or drag players from another team
+                </p>
             </CardFooter>
         </Card>
     );

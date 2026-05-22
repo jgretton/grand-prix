@@ -1,9 +1,7 @@
 import { useTeamBuilderContext } from '@/context/team-builder-context';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 
-import { PlusIcon } from 'lucide-react';
 import { useCallback, useEffect } from 'react';
-import { Button } from '../ui/button';
 import TeamCard from './team-card';
 
 export function TeamContainer({ errors }) {
@@ -52,7 +50,7 @@ export function TeamContainer({ errors }) {
     }, [handleDrop]);
 
     return (
-        <div className="grid size-full h-full grid-cols-3 gap-5 rounded-md border-2 border-dashed p-4 md:grid-cols-2">
+        <div className="grid size-full h-full grid-cols-1 gap-5 rounded-md border-2 border-dashed p-4 sm:grid-cols-2 lg:grid-cols-3">
             {teams.map((team, idx) => (
                 <TeamCard
                     team={team}
@@ -60,13 +58,6 @@ export function TeamContainer({ errors }) {
                     errorMessage={errors[`teams.${idx}.players`]}
                 />
             ))}
-            <Button
-                variant={'ghost'}
-                className="flex h-full min-h-20 items-center justify-center rounded-md border-2 border-dashed"
-                onClick={() => addTeam()}
-            >
-                <PlusIcon /> Add Another Team
-            </Button>
         </div>
     );
 }

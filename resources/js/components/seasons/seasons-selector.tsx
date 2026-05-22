@@ -7,6 +7,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Season, Seasons } from '@/types';
+import { DotIcon } from 'lucide-react';
 
 interface SeasonsSelectorPageProps {
     season?: Season;
@@ -28,14 +29,23 @@ export default function SeasonsSelector({
                 handleSeasonChange(Number(value));
             }}
         >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-1/2">
                 <SelectValue placeholder="Current Season" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
                     {seasons.map((current, index) => (
-                        <SelectItem value={String(current.id)} key={index}>
+                        <SelectItem
+                            value={String(current.id)}
+                            key={index}
+                            className="inline-flex items-center"
+                        >
                             {current.name}
+                            {current.is_current && (
+                                <span className="inline-flex items-center text-xs text-muted-foreground">
+                                    <DotIcon className="size-6" /> active
+                                </span>
+                            )}
                         </SelectItem>
                     ))}
                 </SelectGroup>

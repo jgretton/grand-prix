@@ -21,17 +21,19 @@ import { Label } from '../ui/label';
 interface AddSeasonModalPageProps {
     setModalOpen: (value: boolean) => void;
     modalOpen: boolean;
+    isFirstSeason?: boolean;
 }
 
 export default function AddSeasonModal({
     setModalOpen,
     modalOpen,
+    isFirstSeason,
 }: AddSeasonModalPageProps) {
     return (
         <Dialog onOpenChange={setModalOpen} open={modalOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline">
-                    <PlusIcon /> New Season
+                <Button variant="outline" size={'icon'}>
+                    <PlusIcon />
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-sm">
@@ -43,9 +45,10 @@ export default function AddSeasonModal({
                     onSuccess={() => setModalOpen(false)}
                     transform={(data) => {
                         const newIsCurrent = data.is_current === 'on';
+
                         return {
                             ...data,
-                            is_current: newIsCurrent,
+                            is_current: isFirstSeason ? true : newIsCurrent,
                         };
                     }}
                 >
@@ -58,7 +61,7 @@ export default function AddSeasonModal({
                                     would like to make it the current one.
                                 </DialogDescription>
                             </DialogHeader>
-                            <FieldGroup>
+                            <FieldGroup className="grid gap-5 py-5">
                                 <Field>
                                     <Label htmlFor="name">Name *</Label>
                                     <Input
@@ -73,12 +76,19 @@ export default function AddSeasonModal({
                                     <Checkbox
                                         name="is_current"
                                         id="is_current"
-                                        defaultChecked={false}
+                                        defaultChecked={isFirstSeason}
+                                        disabled={isFirstSeason}
                                     />
                                     <Label htmlFor="is_current">
-                                        Set as current season
+                                        Set as active season
                                     </Label>
                                 </Field>
+                                {isFirstSeason && (
+                                    <p className="-mt-3 text-xs text-muted-foreground">
+                                        Your first season is automatically set
+                                        as active
+                                    </p>
+                                )}
                             </FieldGroup>
                             <DialogFooter>
                                 <DialogClose asChild>

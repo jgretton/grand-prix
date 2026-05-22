@@ -6,7 +6,7 @@ import {
     draggable,
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { XIcon } from 'lucide-react';
+import { GripVertical, XIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
 import { Button } from '../ui/button';
@@ -57,10 +57,13 @@ export default function PlayerCard({
 
     return (
         <div
-            className={`flex w-full flex-row items-center justify-between rounded-md border-b p-4 px-4 last:border-b-0 hover:bg-gray-100 ${isDragging && 'opacity-40'}`}
+            className={`flex w-full flex-row items-center justify-between rounded-md p-2 shadow-sm hover:bg-gray-100 ${isDragging && 'opacity-40'} cursor-grab active:cursor-grabbing`}
             ref={ref}
         >
-            <p className="text-wrap">{player.name}</p>
+            <div className="flex items-center gap-2">
+                <GripVertical className="size-5" />
+                <p className="text-wrap">{player.name}</p>
+            </div>
             <Button
                 size={'icon'}
                 className=""
