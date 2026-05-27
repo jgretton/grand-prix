@@ -9,6 +9,7 @@ export default function ScoringGrid({
 }: {
     tournament: Tournament;
 }) {
+    console.log(tournament);
     const { data, setData, post, processing, errors } = useForm<{
         rounds: Round[];
     }>({

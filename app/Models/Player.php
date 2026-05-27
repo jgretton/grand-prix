@@ -18,4 +18,9 @@ class Player extends Model
             'is_active' => 'boolean',
         ];
     }
+
+    public function lowestAttendedScore(): int
+    {
+        return PlayerScore::where('player_id', $this->id)->where('attended', true)->orderByDesc('score')->value('score') ?? 0;
+    }
 }

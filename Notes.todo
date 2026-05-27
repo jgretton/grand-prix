@@ -14,21 +14,17 @@ Features:
     - player page needs filtering for active and inactive.
 
 Application:
-    ☐ no front end error handling on tournament submission page
 
 Dashboard:
     ☐ sseason selector is off screen when name is small. width problem maybe?
+
 Tournament create:
-    ☐ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up.
-    ☐ ui is not response enough.
-    ☐ cannot create tournament with a single team.
+    
 
 
 Tournemtnt index:
     ☐ need to make the center sections scrollable for mobile in scoring table
-    ☐ add teams at bottom of completed page
     ☐ allow editing of teams on tournament page.
-    ☐ refactor the page.
 
 
 
@@ -73,9 +69,15 @@ Tournemtnt index:
     Delete Modal:
         ✔ update ui, error message is under the button and not in a good place. (delete current season to see this) @done(26-05-20 12:32)
 22.05.26:
-    ☐ front end error handling for tournament submission.
-    ☐ Think about how user can edit teams in tournament index.
-    ☐ Componantise the tournament index page.
-    ☐ Test for player scores.
+    ✔ front end error handling for tournament submission. @done(26-05-22 14:42)
+    ✔ Componantise the tournament index page. @done(26-05-22 14:42)
+    ✔ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up. @done(26-05-22 15:16)
+    ✔ ui is not response enough. @done(26-05-22 15:16)
+    ✔ cannot create tournament with a single team. @done(26-05-22 15:16)
+    ✔ Think about how user can edit teams in tournament index. @done(26-05-22 15:16)
+    ✔ add teams at bottom of completed page @done(26-05-22 15:16)
+    ☐ Build test suite for adding player_scores.
+    // upon tournament submission we calculate the player scores. 
+    // need a list of all player who are active but did not attend then calculate their absent score.
 
 

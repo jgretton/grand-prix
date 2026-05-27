@@ -28,4 +28,13 @@ class Team extends Model
     {
         return $this->hasMany(RoundScore::class);
     }
+
+    public function finalTournamentScore(Tournament $tournament): int
+    {
+        return RoundScore::whereHas('round', function ($query) use ($tournament) {
+            $query->where('tournament_id', $tournament->id);
+        })
+            ->where('team_id', $this->id)
+            ->sum('score');
+    }
 }

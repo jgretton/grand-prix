@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/seasons/{season}/set-current', [SeasonController::class, 'setCurrent'])->name('season.set-current');
 
     Route::resource('/players', PlayerController::class);
+    Route::get('/players/{player}', [PlayerController::class, 'show'])->name('player.show');
     Route::patch('/players/{player}/toggle-active', [PlayerController::class, 'toggleActive'])->name('players.toggle-active');
 
     Route::resource('tournaments', TournamentController::class);

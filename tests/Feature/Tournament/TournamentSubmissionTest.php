@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Player;
+use App\Models\PlayerTeam;
 use App\Models\Season;
 use App\Models\Team;
 use App\Models\Tournament;
@@ -14,10 +16,14 @@ describe('Authorised User', function () {
 
         $this->season = Season::factory()->create();
         $this->tournament = Tournament::factory()->create(['season_id' => $this->season->id]);
+        $this->player = Player::factory()->isActive()->create();
         $this->teamOne = Team::factory()->create(['tournament_id' => $this->tournament->id]);
         $this->teamTwo = Team::factory()->create(['tournament_id' => $this->tournament->id]);
+        $this->playerTeam = PlayerTeam::factory()->create(['player_id' => $this->player->id, 'team_id' => $this->teamOne->id]);
     });
     test('can create tournament submission', function () {
+
+        $absentPlayer = Player::factory()->isActive()->create();
 
         $response = post('/tournaments/'.$this->tournament->id.'/submit', [
             'rounds' => [
@@ -46,21 +52,24 @@ describe('Authorised User', function () {
 
         assertDatabaseHas('tournaments', ['id' => $this->tournament->id, 'is_completed' => true]);
 
+        assertDatabaseHas('player_scores', ['score' => 39, 'player_id' => $this->player->id]);
+        assertDatabaseHas('player_scores', ['score' => 0, 'player_id' => $absentPlayer->id, 'attended' => false]);
+
         $response->assertRedirect();
     });
 
-    describe('Validation', function () {
-        test('rounds must be present', function () {});
-        test('rounds must not be empty');
-        test('round number is required');
-        test('round number must be an integer');
-        test('round number must be greater than zero');
-        test('round scores must be present');
-        test('round scores must not be empty');
-        test('team id is required');
-        test('team id must exist in teams table');
-        test('score is required');
-        test('score must be an integer');
-        test('score cannot be negative');
-    });
+    // describe('Validation', function () {
+    //     test('rounds must be present', function () {});
+    //     test('rounds must not be empty');
+    //     test('round number is required');
+    //     test('round number must be an integer');
+    //     test('round number must be greater than zero');
+    //     test('round scores must be present');
+    //     test('round scores must not be empty');
+    //     test('team id is required');
+    //     test('team id must exist in teams table');
+    //     test('score is required');
+    //     test('score must be an integer');
+    //     test('score cannot be negative');
+    // });
 });
