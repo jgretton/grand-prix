@@ -1,7 +1,10 @@
-import { useTeamBuilderContext } from '@/context/team-builder-context';
-import { Team } from '@/types/players';
+import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { XIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import invariant from 'tiny-invariant';
+import { useTeamBuilderContext } from '@/context/team-builder-context';
+import type { Team } from '@/types/players';
+import InputError from '../input-error';
 import PlayerSelectModal from '../modals/player-select';
 import { Button } from '../ui/button';
 import {
@@ -15,9 +18,6 @@ import {
 } from '../ui/card';
 import PlayerCard from './player-card';
 
-import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import invariant from 'tiny-invariant';
-import InputError from '../input-error';
 
 interface TeamCardProps {
     team: Team;

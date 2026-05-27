@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, ArrowUpRight } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';

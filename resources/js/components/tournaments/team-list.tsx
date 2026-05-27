@@ -1,4 +1,4 @@
-import { Team } from '@/types/players';
+import type { Team } from '@/types/players';
 
 export default function TeamList({
     team,

@@ -1,3 +1,6 @@
+import { Head, Link, router } from '@inertiajs/react';
+import { PlusIcon, Table2Icon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import AddSeasonModal from '@/components/modals/add-season';
 import SeasonsDropdownMenu from '@/components/seasons/seasons-dropdown-menu';
@@ -21,10 +24,7 @@ import {
 } from '@/components/ui/empty';
 
 import { dashboard } from '@/routes';
-import { Season, Seasons } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
-import { PlusIcon, Table2Icon } from 'lucide-react';
-import { useState } from 'react';
+import type { Season, Seasons } from '@/types';
 
 interface DashboardPageProps {
     season: Season;

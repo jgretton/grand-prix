@@ -20,6 +20,7 @@ class PlayerController extends Controller
 
         $players = Player::all()->map(function ($player) use ($currentSeason) {
             $player->current_season_total = $currentSeason ? $player->currentSeasonTotal($currentSeason) : 0;
+
             return $player;
         });
 

@@ -1,14 +1,14 @@
-import { useTeamBuilderContext } from '@/context/team-builder-context';
-import { Player } from '@/types/players';
-import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import {
     draggable,
     dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { GripVertical, XIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
+import { useTeamBuilderContext } from '@/context/team-builder-context';
+import type { Player } from '@/types/players';
 import { Button } from '../ui/button';
 
 export default function PlayerCard({

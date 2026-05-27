@@ -1,10 +1,9 @@
-import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
-import { Player } from '@/types/players';
 import { Form } from '@inertiajs/react';
 import { LoaderCircleIcon, Trash2Icon } from 'lucide-react';
+import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
+import type { Player } from '@/types/players';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -43,50 +42,43 @@ export default function DeletePlayerModal({
                         undone.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel variant="outline">
-                        Cancel
-                    </AlertDialogCancel>
-                    <Form
-                        {...PlayerController.destroy.form({ player: player })}
-                        options={{
-                            preserveScroll: true,
-                        }}
-                        onSuccess={() => setModalOpen(false)}
-                        onError={(errors) => {
-                            setModalOpen(true);
-                        }}
-                    >
-                        {({ errors, processing }) => (
-                            <>
-                                <AlertDialogAction
+                <Form
+                    {...PlayerController.destroy.form({ player: player })}
+                    options={{
+                        preserveScroll: true,
+                    }}
+                    onSuccess={() => setModalOpen(false)}
+                >
+                    {({ errors, processing }) => (
+                        <>
+                            <AlertDialogFooter>
+                                <Button
+                                    className="w-full sm:w-auto"
                                     variant="destructive"
-                                    asChild
+                                    disabled={processing}
+                                    type="submit"
                                 >
-                                    <Button
-                                        className="w-full"
-                                        disabled={processing}
-                                        type="submit"
-                                    >
-                                        {processing ? (
-                                            <>
-                                                <LoaderCircleIcon className="animate-spin" />{' '}
-                                                Deleting
-                                            </>
-                                        ) : (
-                                            'Delete Player'
-                                        )}
-                                    </Button>
-                                </AlertDialogAction>
-                                {/* {errors.seasonError && (
-                                    <p className="text-sm text-red-500">
-                                        {errors.seasonError}
-                                    </p>
-                                )} */}
-                            </>
-                        )}
-                    </Form>
-                </AlertDialogFooter>
+                                    {processing ? (
+                                        <>
+                                            <LoaderCircleIcon className="animate-spin" />{' '}
+                                            Deleting
+                                        </>
+                                    ) : (
+                                        'Delete Player'
+                                    )}
+                                </Button>
+                                <AlertDialogCancel variant="outline">
+                                    Cancel
+                                </AlertDialogCancel>
+                            </AlertDialogFooter>
+                            {errors.playerError && (
+                                <p className="mt-2 text-right text-sm text-red-500">
+                                    {errors.playerError}
+                                </p>
+                            )}
+                        </>
+                    )}
+                </Form>
             </AlertDialogContent>
         </AlertDialog>
     );

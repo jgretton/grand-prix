@@ -1,6 +1,6 @@
-import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
 import { Form } from '@inertiajs/react';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
+import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
 import InputError from '../input-error';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
@@ -43,6 +43,7 @@ export default function AddPlayerModal({
                     onSuccess={() => setModalOpen(false)}
                     transform={(data) => {
                         const newIsActive = data.is_active === 'on';
+
                         return {
                             ...data,
                             is_active: newIsActive,

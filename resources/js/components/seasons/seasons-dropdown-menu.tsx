@@ -1,3 +1,6 @@
+import { router } from '@inertiajs/react';
+import { EllipsisVerticalIcon, Trash2Icon } from 'lucide-react';
+import { useState } from 'react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -5,10 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Season } from '@/types';
-import { router } from '@inertiajs/react';
-import { EllipsisVerticalIcon, Trash2Icon } from 'lucide-react';
-import { useState } from 'react';
+import type { Season } from '@/types';
 import DeleteSeasonModal from '../modals/delete-season';
 import { Button } from '../ui/button';
 

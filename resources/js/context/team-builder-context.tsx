@@ -1,5 +1,5 @@
-import { Player, Players, Team } from '@/types/players';
 import { createContext, useContext, useState } from 'react';
+import type { Player, Players, Team } from '@/types/players';
 
 const initialTeams: Team[] = [
     {
@@ -90,7 +90,9 @@ export function TeamBuilderProvider({
         playerId: number,
         initialTeamId: string,
     ) => {
-        if (targetTeamId === initialTeamId) return;
+        if (targetTeamId === initialTeamId) {
+return;
+}
 
         const player = teams
             .find((team) => team.id === initialTeamId)

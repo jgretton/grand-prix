@@ -1,3 +1,6 @@
+import { Head, router } from '@inertiajs/react';
+import { Loader2Icon, PlusIcon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
@@ -11,11 +14,8 @@ import {
 } from '@/context/team-builder-context';
 import { dashboard } from '@/routes';
 import tournaments from '@/routes/tournaments';
-import { Seasons } from '@/types';
-import { Players } from '@/types/players';
-import { Head, router } from '@inertiajs/react';
-import { Loader2Icon, PlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import type { Seasons } from '@/types';
+import type { Players } from '@/types/players';
 
 const CreateTournamentForm = ({ seasons }: { seasons: Seasons }) => {
     const { teams, addTeam } = useTeamBuilderContext();

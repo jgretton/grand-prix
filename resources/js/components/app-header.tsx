@@ -1,3 +1,5 @@
+import { Link, usePage } from '@inertiajs/react';
+import { LayoutGrid, Menu, Users2 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -28,8 +30,6 @@ import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import players from '@/routes/players';
 import type { BreadcrumbItem, NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Menu, Users2 } from 'lucide-react';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];

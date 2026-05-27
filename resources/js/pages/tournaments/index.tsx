@@ -1,3 +1,10 @@
+import { Head } from '@inertiajs/react';
+import {
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@radix-ui/react-collapsible';
+import { ChevronDownIcon, PencilIcon, PlayIcon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import ResultsGrid from '@/components/tournaments/results-grid';
 import ScoringGrid from '@/components/tournaments/scoring-grid';
@@ -9,13 +16,6 @@ import { Collapsible } from '@/components/ui/collapsible';
 import { dashboard } from '@/routes';
 import tournaments from '@/routes/tournaments';
 import type { FinalScore, Tournament, TournamentStatus } from '@/types';
-import { Head } from '@inertiajs/react';
-import {
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@radix-ui/react-collapsible';
-import { ChevronDownIcon, PencilIcon, PlayIcon } from 'lucide-react';
-import { useState } from 'react';
 
 export default function TournamentPage({
     tournament,

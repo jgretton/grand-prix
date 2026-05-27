@@ -1,8 +1,8 @@
+import { Form } from '@inertiajs/react';
 import { LoaderCircleIcon, Trash2Icon } from 'lucide-react';
 
 import SeasonController from '@/actions/App/Http/Controllers/SeasonController';
-import { Season } from '@/types';
-import { Form } from '@inertiajs/react';
+import type { Season } from '@/types';
 import {
     AlertDialog,
     AlertDialogCancel,

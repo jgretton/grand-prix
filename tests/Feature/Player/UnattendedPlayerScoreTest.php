@@ -4,7 +4,6 @@ use App\Models\Player;
 use App\Models\PlayerScore;
 use App\Models\Season;
 use App\Models\Tournament;
-use App\Models\User;
 
 beforeEach(function () {
     $this->season = Season::factory()->create();

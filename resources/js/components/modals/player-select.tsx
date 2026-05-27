@@ -1,7 +1,7 @@
-import { useTeamBuilderContext } from '@/context/team-builder-context';
-import { Player, Players, Team } from '@/types/players';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTeamBuilderContext } from '@/context/team-builder-context';
+import type { Player, Players, Team } from '@/types/players';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import {

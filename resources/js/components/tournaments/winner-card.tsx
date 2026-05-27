@@ -1,5 +1,5 @@
-import { FinalScore } from '@/types';
 import { TrophyIcon } from 'lucide-react';
+import type { FinalScore } from '@/types';
 import { Card, CardContent } from '../ui/card';
 
 export default function WinnerCard({

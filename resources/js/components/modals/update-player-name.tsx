@@ -1,7 +1,7 @@
-import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
-import { Player } from '@/types/players';
 import { Form } from '@inertiajs/react';
 import { Loader2Icon } from 'lucide-react';
+import PlayerController from '@/actions/App/Http/Controllers/PlayerController';
+import type { Player } from '@/types/players';
 import InputError from '../input-error';
 import { Button } from '../ui/button';
 import {

@@ -1,6 +1,6 @@
-import { Round, Tournament } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { PlusIcon, XIcon } from 'lucide-react';
+import type { Round, Tournament } from '@/types';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 

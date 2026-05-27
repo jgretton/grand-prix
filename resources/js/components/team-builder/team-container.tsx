@@ -1,11 +1,11 @@
-import { useTeamBuilderContext } from '@/context/team-builder-context';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 
 import { useCallback, useEffect } from 'react';
+import { useTeamBuilderContext } from '@/context/team-builder-context';
 import TeamCard from './team-card';
 
 export function TeamContainer({ errors }) {
-    const { teams, addTeam, movePlayerToTeam } = useTeamBuilderContext();
+    const { teams, movePlayerToTeam } = useTeamBuilderContext();
     const handleDrop = useCallback(
         ({ source, location }) => {
             const destination = location.current.dropTargets.length;

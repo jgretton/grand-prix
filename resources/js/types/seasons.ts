@@ -1,4 +1,4 @@
-import { Team } from './players';
+import type { Team } from './players';
 
 export type Season = {
     id: number;

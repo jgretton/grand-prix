@@ -1,20 +1,22 @@
-import {
+import type {
     ColumnDef,
     ColumnFiltersState,
+    SortingState} from '@tanstack/react-table';
+import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
-    SortingState,
     useReactTable,
 } from '@tanstack/react-table';
 
+import { Filter } from 'lucide-react';
+import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Filter } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -24,7 +26,6 @@ import {
     TableRow,
 } from '@/components/ui/table';
 
-import React from 'react';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];

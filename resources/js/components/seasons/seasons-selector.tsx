@@ -1,3 +1,4 @@
+import { DotIcon } from 'lucide-react';
 import {
     Select,
     SelectContent,
@@ -6,8 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Season, Seasons } from '@/types';
-import { DotIcon } from 'lucide-react';
+import type { Season, Seasons } from '@/types';
 
 interface SeasonsSelectorPageProps {
     season?: Season;

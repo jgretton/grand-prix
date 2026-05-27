@@ -1,4 +1,3 @@
-import { Player } from '@/types/players';
 import { router } from '@inertiajs/react';
 import {
     CheckCircleIcon,
@@ -8,6 +7,7 @@ import {
     XCircleIcon,
 } from 'lucide-react';
 import { useState } from 'react';
+import type { Player } from '@/types/players';
 import DeletePlayerModal from '../modals/delete-player';
 import UpdatePlayerNameModal from '../modals/update-player-name';
 import { Button } from '../ui/button';

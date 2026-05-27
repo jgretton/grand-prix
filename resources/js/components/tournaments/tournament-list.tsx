@@ -1,6 +1,6 @@
-import { Tournament } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ArrowRight, UsersIcon } from 'lucide-react';
+import type { Tournament } from '@/types';
 import Heading from '../heading';
 
 export default function TournamentList({
@@ -14,6 +14,7 @@ export default function TournamentList({
     const inProgressTournaments = tournaments.filter(
         (tournament) => tournament.is_completed === false,
     );
+
     return (
         <div>
             {inProgressTournaments.length > 0 ? (

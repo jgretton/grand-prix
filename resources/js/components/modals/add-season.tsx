@@ -1,6 +1,6 @@
-import SeasonController from '@/actions/App/Http/Controllers/SeasonController';
 import { Form } from '@inertiajs/react';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
+import SeasonController from '@/actions/App/Http/Controllers/SeasonController';
 import InputError from '../input-error';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
