@@ -13,7 +13,7 @@ class Tournament extends Model
 
     use HasFactory;
 
-    protected $fillable = ['name', 'season_id'];
+    protected $fillable = ['name', 'season_id', 'is_completed'];
 
     protected function casts(): array
     {
@@ -37,6 +37,11 @@ class Tournament extends Model
     public function rounds(): HasMany
     {
         return $this->hasMany(Round::class);
+    }
+
+    public function playerScores(): HasMany
+    {
+        return $this->hasMany(PlayerScore::class);
     }
 
     public function getPlayerCountAttribute(): int

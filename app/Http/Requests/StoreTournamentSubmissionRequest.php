@@ -42,6 +42,10 @@ class StoreTournamentSubmissionRequest extends FormRequest
             // sort them the same as the expected team ids then we know the values will match up
             // check if the arrays are the same and if not then return the error response and message.
 
+            if ($tournament->is_completed) {
+                $validator->errors()->add('tournament', 'This tournament has already been submitted');
+            }
+
             foreach ($this->input('rounds', []) as $index => $round) {
                 $submittedTeamIds = collect($round['round_scores'])->pluck('team_id')->map(fn ($id) => (int) $id)->sort()->values()->toArray();
                 if ($expectedTeamIds !== $submittedTeamIds) {

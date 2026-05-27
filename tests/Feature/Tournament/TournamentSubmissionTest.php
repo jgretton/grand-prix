@@ -58,18 +58,186 @@ describe('Authorised User', function () {
         $response->assertRedirect();
     });
 
-    // describe('Validation', function () {
-    //     test('rounds must be present', function () {});
-    //     test('rounds must not be empty');
-    //     test('round number is required');
-    //     test('round number must be an integer');
-    //     test('round number must be greater than zero');
-    //     test('round scores must be present');
-    //     test('round scores must not be empty');
-    //     test('team id is required');
-    //     test('team id must exist in teams table');
-    //     test('score is required');
-    //     test('score must be an integer');
-    //     test('score cannot be negative');
-    // });
+    describe('Validation', function () {
+        test('cannot submit a completed tournament', function () {
+            $this->tournament->update(['is_completed' => true]);
+
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 21],
+                            ['team_id' => $this->teamTwo->id, 'score' => 15],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertSessionHasErrors(['tournament' => 'This tournament has already been submitted']);
+        });
+        test('rounds must be present', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', []);
+
+            $response->assertInvalid(['rounds']);
+        });
+        test('rounds must not be empty', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [],
+            ]);
+
+            $response->assertInvalid(['rounds']);
+        });
+        test('round number is required', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 21],
+                            ['team_id' => $this->teamTwo->id, 'score' => 15],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_number']);
+        });
+        test('round number must be an integer', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 'one',
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 21],
+                            ['team_id' => $this->teamTwo->id, 'score' => 15],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_number']);
+        });
+        test('round number must be greater than zero', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 0,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 21],
+                            ['team_id' => $this->teamTwo->id, 'score' => 15],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_number']);
+        });
+        test('round scores must be present', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores']);
+        });
+        test('round scores must not be empty', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores']);
+        });
+        test('team id is required', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['score' => 21],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores.0.team_id']);
+        });
+        test('team id must exist in teams table', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => 99999, 'score' => 21],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores.0.team_id']);
+        });
+        test('score is required', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores.0.score']);
+        });
+        test('score must be an integer', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 'twenty'],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores.0.score']);
+        });
+        test('score cannot be negative', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => -1],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertInvalid(['rounds.0.round_scores.0.score']);
+        });
+        test('all teams must have a score in each round', function () {
+            $response = post('/tournaments/'.$this->tournament->id.'/submit', [
+                'rounds' => [
+                    [
+                        'round_number' => 1,
+                        'round_scores' => [
+                            ['team_id' => $this->teamOne->id, 'score' => 21],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $response->assertSessionHasErrors(['rounds.allTeams' => 'All teams require a score']);
+        });
+    });
 });

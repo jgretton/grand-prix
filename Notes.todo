@@ -81,3 +81,15 @@ Tournemtnt index:
     // need a list of all player who are active but did not attend then calculate their absent score.
 
 
+27.05.26:
+    ✔ Update lowest attended score to calculate absent score of -10 their lowest attended score. - renamed to unattendedScore. @done(26-05-27 10:34)
+    ✔ Test for unattendedScore @done(26-05-27 11:06)
+    ✔ Add unique constraint as only one score per player is submitted per tournament. Added validation check for if tournament is complete, to stop double submits. @done(26-05-27 11:06)
+    ✔ Infinite scroll for players page. @done(26-05-27 12:08)
+        - add total player count to player page.
+    ☐ Validation test suite for tournament submission.
+        - one test failing.
+    ☐ single player view with all of their tournament data from selected season.
+        - information on how many they missed this season? how many attended? average points per tournament.
+    ☐ Leaderboard page showing all scores for that season and total so far. 
+    ☐ public leaderboard page.

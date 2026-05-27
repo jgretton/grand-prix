@@ -170,6 +170,11 @@ export default function ScoringGrid({
                     </div>
                 ))}
             </div>
+            {errors['tournament'] && (
+                <p className="mt-2 text-sm text-red-500">
+                    {errors['tournament']}
+                </p>
+            )}
             {errors['rounds.allTeams'] && (
                 <p className="mt-2 text-sm text-red-500">
                     {errors['rounds.allTeams']}
