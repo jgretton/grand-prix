@@ -21,4 +21,13 @@ class TournamentFactory extends Factory
             'name' => '12/05/2026',
         ];
     }
+
+    public function isCompleted(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_completed' => true,
+            ];
+        });
+    }
 }

@@ -57,7 +57,7 @@ class TournamentSubmissionController extends Controller
 
             foreach ($absentPlayers as $playerId) {
                 $player = Player::find($playerId);
-                $score = $player->lowestAttendedScore();
+                $score = $player->unattendedScore();
                 PlayerScore::create(['attended' => false, 'score' => $score, 'player_id' => $playerId, 'tournament_id' => $tournament->id]);
             }
 

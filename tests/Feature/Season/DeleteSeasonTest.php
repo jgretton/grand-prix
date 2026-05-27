@@ -32,7 +32,7 @@ test('Cannot delete current season', function () {
 
     assertDatabaseHas('seasons', ['id' => $season->id]);
 
-    $response->assertSessionHasErrors(['seasonError' => 'The current season cannot be deleted.']);
+    $response->assertSessionHasErrors(['seasonError' => 'The active season cannot be deleted.']);
 
     $response->assertRedirect('/dashboard');
 
