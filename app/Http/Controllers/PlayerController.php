@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
+use App\Models\Season;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,10 +16,17 @@ class PlayerController extends Controller
     {
         //
 
-        $players = Player::all();
+        $currentSeason = Season::where('is_current', true)->first();
+        $players = Player::paginate();
+        $players = $players->through(function ($player) use ($currentSeason) {
+            $player->current_season_total = $player->currentSeasonTotal($currentSeason);
+
+            return $player;
+        });
 
         return Inertia::render('players/index', [
-            'players' => $players,
+            // 'players' => $players,
+            'players' => Inertia::scroll(fn () => $players),
         ]);
     }
 
