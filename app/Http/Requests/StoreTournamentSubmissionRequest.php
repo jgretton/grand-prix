@@ -28,6 +28,9 @@ class StoreTournamentSubmissionRequest extends FormRequest
     public function withValidator($validator): void
     {
         $validator->after(function ($validator) {
+            if ($validator->errors()->isNotEmpty()) {
+                return;
+            }
             // fetch the teams from this tournamnet
             $tournament = $this->route('tournament');
 
@@ -47,6 +50,7 @@ class StoreTournamentSubmissionRequest extends FormRequest
             }
 
             foreach ($this->input('rounds', []) as $index => $round) {
+
                 $submittedTeamIds = collect($round['round_scores'])->pluck('team_id')->map(fn ($id) => (int) $id)->sort()->values()->toArray();
                 if ($expectedTeamIds !== $submittedTeamIds) {
                     $missingTeamIds = array_diff($expectedTeamIds, $submittedTeamIds);
