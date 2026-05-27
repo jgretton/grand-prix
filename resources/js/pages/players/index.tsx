@@ -3,7 +3,7 @@ import AddPlayerModal from '@/components/modals/add-player';
 import { columns } from '@/components/players/columns';
 import { DataTable } from '@/components/players/data-table';
 import { Players } from '@/types/players';
-import { Head, InfiniteScroll } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface PlayersPageProps {
@@ -18,7 +18,7 @@ export default function PlayersPage({ players }: PlayersPageProps) {
     return (
         <>
             <Head title="Players" />
-            <div className="mt-4 flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+            <div className="mt-4 flex flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex w-full items-center justify-between">
                     <Heading
                         title="Players"
@@ -30,9 +30,7 @@ export default function PlayersPage({ players }: PlayersPageProps) {
                     />
                 </div>
 
-                <InfiniteScroll data="players">
-                    <DataTable columns={columns} data={players.data} />
-                </InfiniteScroll>
+                <DataTable columns={columns} data={players} />
             </div>
         </>
     );

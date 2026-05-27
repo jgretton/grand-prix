@@ -17,6 +17,7 @@ export type PlayerHeadings = {
 export const columns: ColumnDef<PlayerHeadings>[] = [
     {
         accessorKey: 'name',
+        size: 300,
         header: ({ column }) => {
             return (
                 <Button
@@ -34,7 +35,7 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
             return (
                 <Link
                     href={`/players/${row.original.id}`}
-                    className="group inline-flex items-center gap-1 hover:underline"
+                    className="group inline-flex w-full flex-1 items-center gap-1 hover:underline"
                 >
                     {row.original.name}
                     <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -44,6 +45,7 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
     },
     {
         accessorKey: 'current_season_total',
+        size: 200,
         header: ({ column }) => {
             return (
                 <Button
@@ -68,6 +70,8 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
     },
     {
         accessorKey: 'is_active',
+        size: 120,
+        filterFn: 'equals',
         header: 'Status',
         cell: ({ row }) => {
             return (
@@ -85,6 +89,7 @@ export const columns: ColumnDef<PlayerHeadings>[] = [
     },
     {
         accessorKey: 'actions',
+        size: 100,
         header: () => <div className="mr-5 text-right">Actions</div>,
         cell: ({ row }) => {
             return (

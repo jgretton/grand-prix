@@ -4,12 +4,17 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
+    getPaginationRowModel,
     getSortedRowModel,
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
 
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Filter } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -33,6 +38,7 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
+
     const table = useReactTable({
         data,
         columns,
@@ -41,6 +47,10 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        initialState: {
+            pagination: { pageSize: 15 },
+        },
         state: {
             sorting,
             columnFilters,
@@ -49,7 +59,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <>
-            <div className="flex items-center py-4">
+            <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <Input
                     placeholder="Filter names..."
                     value={
@@ -63,25 +73,63 @@ export function DataTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="outline" size="sm" className="gap-2">
+                            <Filter className="h-4 w-4 fill-current" />
+                            {table.getColumn('is_active')?.getFilterValue() !== undefined && (
+                                <Badge variant="secondary" className="ml-1 px-1.5">
+                                    1
+                                </Badge>
+                            )}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-40 p-2">
+                        <div className="flex flex-col gap-1">
+                            {[
+                                { label: 'All', value: undefined },
+                                { label: 'Active', value: true },
+                                { label: 'Inactive', value: false },
+                            ].map(({ label, value }) => (
+                                <button
+                                    key={label}
+                                    onClick={() =>
+                                        table
+                                            .getColumn('is_active')
+                                            ?.setFilterValue(value)
+                                    }
+                                    className={`rounded px-3 py-1.5 text-left text-sm hover:bg-accent ${
+                                        table.getColumn('is_active')?.getFilterValue() === value
+                                            ? 'bg-accent font-medium'
+                                            : ''
+                                    }`}
+                                >
+                                    {label}
+                                </button>
+                            ))}
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext(),
-                                                  )}
-                                        </TableHead>
-                                    );
-                                })}
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead
+                                        key={header.id}
+                                        style={{ width: header.getSize() }}
+                                    >
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                  header.column.columnDef
+                                                      .header,
+                                                  header.getContext(),
+                                              )}
+                                    </TableHead>
+                                ))}
                             </TableRow>
                         ))}
                     </TableHeader>
@@ -116,6 +164,62 @@ export function DataTable<TData, TValue>({
                         )}
                     </TableBody>
                 </Table>
+            </div>
+            <div className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    Players per page:
+                    <select
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) =>
+                            table.setPageSize(Number(e.target.value))
+                        }
+                        className="rounded-md border border-input bg-background px-2 py-1 text-sm"
+                    >
+                        {[15, 25, 35, 50].map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm text-muted-foreground">
+                        Page {table.getState().pagination.pageIndex + 1} of{' '}
+                        {table.getPageCount()} ({table.getRowCount()} total)
+                    </span>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.firstPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        «
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.lastPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        »
+                    </Button>
+                </div>
             </div>
         </>
     );

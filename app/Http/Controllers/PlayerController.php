@@ -17,16 +17,14 @@ class PlayerController extends Controller
         //
 
         $currentSeason = Season::where('is_current', true)->first();
-        $players = Player::paginate();
-        $players = $players->through(function ($player) use ($currentSeason) {
-            $player->current_season_total = $player->currentSeasonTotal($currentSeason);
 
+        $players = Player::all()->map(function ($player) use ($currentSeason) {
+            $player->current_season_total = $player->currentSeasonTotal($currentSeason);
             return $player;
         });
 
         return Inertia::render('players/index', [
-            // 'players' => $players,
-            'players' => Inertia::scroll(fn () => $players),
+            'players' => $players,
         ]);
     }
 
