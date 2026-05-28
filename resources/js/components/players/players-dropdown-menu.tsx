@@ -24,7 +24,6 @@ export default function PlayersDropdownMenu({ player }: { player: Player }) {
     const [modalUpdateOpen, setModalUpdateOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const toggleActive = () => {
-        // console.log('player', player);
         router.patch(`players/${player.id}/toggle-active`);
     };
 
