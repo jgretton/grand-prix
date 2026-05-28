@@ -13,7 +13,8 @@ interface SeasonsSelectorPageProps {
     season?: Season;
     seasons: Seasons;
     handleSeasonChange: (value: number) => void;
-    tournamentSelect: number;
+    tournamentSelect?: number;
+    triggerClassName?: string;
 }
 
 export default function SeasonsSelector({
@@ -21,6 +22,7 @@ export default function SeasonsSelector({
     handleSeasonChange,
     seasons,
     tournamentSelect,
+    triggerClassName = 'w-full sm:w-1/2',
 }: SeasonsSelectorPageProps) {
     return (
         <Select
@@ -29,7 +31,7 @@ export default function SeasonsSelector({
                 handleSeasonChange(Number(value));
             }}
         >
-            <SelectTrigger className="w-full sm:w-1/2">
+            <SelectTrigger className={triggerClassName}>
                 <SelectValue placeholder="Current Season" />
             </SelectTrigger>
             <SelectContent>
