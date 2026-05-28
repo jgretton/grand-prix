@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\TournamentController;
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('tournaments', TournamentController::class);
     Route::post('/tournaments/{tournament}/submit', TournamentSubmissionController::class);
+
+    Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
 });
 
 require __DIR__.'/settings.php';

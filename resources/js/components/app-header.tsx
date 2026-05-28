@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Menu, Users2 } from 'lucide-react';
+import { LayoutGrid, Menu, Trophy, Users2 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -27,7 +27,7 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { dashboard, leaderboard } from '@/routes';
 import players from '@/routes/players';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
@@ -45,6 +45,11 @@ const mainNavItems: NavItem[] = [
         title: 'Players',
         href: players.index(),
         icon: Users2,
+    },
+    {
+        title: 'Leaderboard',
+        href: leaderboard(),
+        icon: Trophy,
     },
 ];
 

@@ -1,7 +1,18 @@
+export type PlayerScore = {
+    id: number;
+    player_id: number;
+    tournament_id: number;
+    score: number;
+    attended: boolean;
+};
+
 export type Player = {
     id?: number;
     name: string;
     is_active: boolean;
+    player_scores?: PlayerScore[];
+    player_scores_sum_score?: number;
+    rank?: number;
 };
 
 export type Players = Player[];
