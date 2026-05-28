@@ -1,3 +1,5 @@
+import { Head, router } from '@inertiajs/react';
+import { TrophyIcon } from 'lucide-react';
 import Heading from '@/components/heading';
 import LeaderboardTable from '@/components/leaderboard/leaderboard-table';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
@@ -9,9 +11,7 @@ import {
     EmptyMedia,
     EmptyTitle,
 } from '@/components/ui/empty';
-import { Players, Season, Seasons, Tournament } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { TrophyIcon } from 'lucide-react';
+import type { Players, Season, Seasons, Tournament } from '@/types';
 
 type LeaderboardPageProps = {
     season: Season | null;

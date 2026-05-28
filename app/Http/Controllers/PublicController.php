@@ -17,7 +17,7 @@ class PublicController extends Controller
 
         $seasons = Season::get(['id', 'name', 'is_current']);
 
-        if (!$season) {
+        if (! $season) {
             return Inertia::render('welcome', [
                 'season' => null,
                 'seasons' => $seasons,

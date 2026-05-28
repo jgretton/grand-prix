@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Players, Tournament } from '@/types';
+import type { Players, Tournament } from '@/types';
 
 const rankInsetShadow: Record<number, string> = {
     1: 'inset 4px 0 0 0 #fbbf24',

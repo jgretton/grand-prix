@@ -18,7 +18,7 @@ class LeaderboardController extends Controller
 
         $seasons = Season::get(['id', 'name', 'is_current']);
 
-        if (!$season) {
+        if (! $season) {
             return Inertia::render('leaderboard/index', [
                 'season' => null,
                 'seasons' => $seasons,

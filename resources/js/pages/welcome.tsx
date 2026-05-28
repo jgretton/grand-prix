@@ -1,17 +1,16 @@
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CalendarIcon, TrophyIcon } from 'lucide-react';
 import LeaderboardTable from '@/components/leaderboard/leaderboard-table';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Empty,
-    EmptyContent,
     EmptyDescription,
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
 } from '@/components/ui/empty';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { dashboard, login } from '@/routes';
 import type { Players, Season, Seasons, Tournament } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarIcon, TrophyIcon } from 'lucide-react';
 
 export default function Welcome({
     tournaments,
@@ -27,12 +26,13 @@ export default function Welcome({
     const { auth } = usePage().props;
 
     const handleSeasonChange = (value: string) => {
-        if (value)
+        if (value) {
             router.get(
                 '/',
                 { season: value },
                 { preserveState: true, preserveScroll: true },
             );
+        }
     };
 
     return (
@@ -78,9 +78,16 @@ export default function Welcome({
                                 </EmptyMedia>
                                 <EmptyTitle>No season yet</EmptyTitle>
                                 <EmptyDescription>
-                                    The first season hasn't kicked off yet — check back soon!
+                                    The first season hasn't kicked off yet —
+                                    check back soon!
                                     {!auth.user && (
-                                        <> <Link href={login()}>Log in</Link> if you're setting things up.</>
+                                        <>
+                                            {' '}
+                                            <Link href={login()}>
+                                                Log in
+                                            </Link>{' '}
+                                            if you're setting things up.
+                                        </>
                                     )}
                                 </EmptyDescription>
                             </EmptyHeader>
@@ -96,7 +103,10 @@ export default function Welcome({
                                 className="mt-10"
                             >
                                 {seasons.map((s) => (
-                                    <ToggleGroupItem key={s.id} value={String(s.id)}>
+                                    <ToggleGroupItem
+                                        key={s.id}
+                                        value={String(s.id)}
+                                    >
                                         {s.name}
                                     </ToggleGroupItem>
                                 ))}
@@ -108,11 +118,23 @@ export default function Welcome({
                                             <EmptyMedia variant="icon">
                                                 <TrophyIcon />
                                             </EmptyMedia>
-                                            <EmptyTitle>No results yet for {season?.name}</EmptyTitle>
+                                            <EmptyTitle>
+                                                No results yet for{' '}
+                                                {season?.name}
+                                            </EmptyTitle>
                                             <EmptyDescription>
-                                                Tournaments for this season haven't been played yet. Check back once things get underway!
+                                                Tournaments for this season
+                                                haven't been played yet. Check
+                                                back once things get underway!
                                                 {!auth.user && (
-                                                    <> <Link href={login()}>Log in</Link> if you're setting things up.</>
+                                                    <>
+                                                        {' '}
+                                                        <Link href={login()}>
+                                                            Log in
+                                                        </Link>{' '}
+                                                        if you're setting things
+                                                        up.
+                                                    </>
                                                 )}
                                             </EmptyDescription>
                                         </EmptyHeader>
