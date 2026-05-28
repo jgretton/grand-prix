@@ -50,7 +50,7 @@ export default function AddPlayerModal({
                         };
                     }}
                 >
-                    {({ processing }) => (
+                    {({ errors, processing }) => (
                         <>
                             <DialogHeader>
                                 <DialogTitle>Add New Player</DialogTitle>
