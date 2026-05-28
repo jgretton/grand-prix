@@ -33,7 +33,7 @@ class TournamentController extends Controller
 
         $seasons = Season::get(['id', 'name', 'is_current']);
 
-        return Inertia::render('tournaments/create/index', [
+        return Inertia::render('tournaments/create', [
             'activePlayers' => $activePlayers,
             'seasons' => $seasons,
         ]);
@@ -110,6 +110,7 @@ class TournamentController extends Controller
     public function edit(Tournament $tournament)
     {
         //
+        return Inertia::render('tournaments/edit', []);
     }
 
     /**

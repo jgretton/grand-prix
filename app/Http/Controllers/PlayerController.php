@@ -58,7 +58,7 @@ class PlayerController extends Controller
     public function show(Player $player)
     {
         //
-        return Inertia::render('players/player/index', [
+        return Inertia::render('players/show', [
             'player' => $player,
         ]);
     }

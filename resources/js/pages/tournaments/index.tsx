@@ -1,10 +1,3 @@
-import { Head } from '@inertiajs/react';
-import {
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@radix-ui/react-collapsible';
-import { ChevronDownIcon, PencilIcon, PlayIcon } from 'lucide-react';
-import { useState } from 'react';
 import Heading from '@/components/heading';
 import ResultsGrid from '@/components/tournaments/results-grid';
 import ScoringGrid from '@/components/tournaments/scoring-grid';
@@ -16,6 +9,13 @@ import { Collapsible } from '@/components/ui/collapsible';
 import { dashboard } from '@/routes';
 import tournaments from '@/routes/tournaments';
 import type { FinalScore, Tournament, TournamentStatus } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import {
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@radix-ui/react-collapsible';
+import { ChevronDownIcon, PlayIcon, PlusIcon, UsersIcon } from 'lucide-react';
+import { useState } from 'react';
 
 export default function TournamentPage({
     tournament,
@@ -37,6 +37,11 @@ export default function TournamentPage({
             <Head title="Dashboard" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <Heading title="Tournament Details" />
+                <Link href={`/tournaments/${tournament.id}/edit`}>
+                    <Button>
+                        <PlusIcon /> Edit Tournament
+                    </Button>
+                </Link>
 
                 <div className="flex w-full flex-col">
                     <div className="flex flex-row items-center gap-2">
@@ -90,7 +95,7 @@ export default function TournamentPage({
                                 className="w-full sm:w-auto"
                                 onClick={() => setLocalStatus('not-started')}
                             >
-                                <PencilIcon /> Edit Teams
+                                <UsersIcon /> View Teams
                             </Button>
                         </div>
                         <div className="border-t pt-10">
