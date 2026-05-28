@@ -8,10 +8,9 @@ use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class LeaderboardController extends Controller
+class PublicController extends Controller
 {
-    // 7
-
+    //
     public function index(Request $request)
     {
         $season = $request->has('season') ? Season::where('id', request()->season)->select(['id', 'name', 'is_current'])->first() : Season::where('is_current', true)->select(['id', 'name', 'is_current'])->first();
@@ -19,15 +18,15 @@ class LeaderboardController extends Controller
         $seasons = Season::get(['id', 'name', 'is_current']);
 
         if (!$season) {
-            return Inertia::render('leaderboard/index', [
+            return Inertia::render('welcome', [
                 'season' => null,
                 'seasons' => $seasons,
-                'tournament' => [],
+                'tournaments' => [],
                 'players' => [],
             ]);
         }
 
-        $tournament = Tournament::where('season_id', $season->id)->where('is_completed', true)->get();
+        $tournaments = Tournament::where('season_id', $season->id)->where('is_completed', true)->get();
         $players = Player::whereHas('playerScores', function ($query) use ($season) {
             $query->where('attended', true)
                 ->whereHas('tournament', function ($query) use ($season) {
@@ -65,10 +64,10 @@ class LeaderboardController extends Controller
             return $player;
         });
 
-        return Inertia::render('leaderboard/index', [
+        return Inertia::render('welcome', [
             'season' => $season,
             'seasons' => $seasons,
-            'tournament' => $tournament,
+            'tournaments' => $tournaments,
             'players' => $players,
         ]);
     }
