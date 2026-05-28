@@ -13,8 +13,6 @@ interface PlayersPageProps {
 export default function PlayersPage({ players }: PlayersPageProps) {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-    console.log(players);
-
     return (
         <>
             <Head title="Players" />

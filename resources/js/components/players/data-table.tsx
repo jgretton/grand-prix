@@ -11,7 +11,7 @@ import {
     useReactTable,
 } from '@tanstack/react-table';
 
-import { Filter } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter } from 'lucide-react';
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -190,35 +190,35 @@ export function DataTable<TData, TValue>({
                     </span>
                     <Button
                         variant="outline"
-                        size="sm"
+                        size="icon"
                         onClick={() => table.firstPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        «
+                        <ChevronsLeft className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="outline"
-                        size="sm"
+                        size="icon"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        <ChevronLeft className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="outline"
-                        size="sm"
+                        size="icon"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        <ChevronRight className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="outline"
-                        size="sm"
+                        size="icon"
                         onClick={() => table.lastPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        »
+                        <ChevronsRight className="h-4 w-4" />
                     </Button>
                 </div>
             </div>
