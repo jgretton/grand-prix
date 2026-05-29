@@ -110,7 +110,9 @@ class TournamentController extends Controller
     public function edit(Tournament $tournament)
     {
         //
-        return Inertia::render('tournaments/edit', []);
+        return Inertia::render('tournaments/edit', [
+            'tournament' => $tournament,
+        ]);
     }
 
     /**
