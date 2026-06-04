@@ -1,10 +1,10 @@
-import { Head } from '@inertiajs/react';
-import { useState } from 'react';
 import Heading from '@/components/heading';
 import AddPlayerModal from '@/components/modals/add-player';
 import { columns } from '@/components/players/columns';
 import { DataTable } from '@/components/players/data-table';
 import type { Players } from '@/types/players';
+import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 interface PlayersPageProps {
     players: Players;

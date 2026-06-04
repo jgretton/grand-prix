@@ -37,7 +37,7 @@ export default function UpdatePlayerNameModal({
                     resetOnSuccess
                     onSuccess={() => setModalOpen(false)}
                 >
-                    {({ processing }) => (
+                    {({ processing, errors }) => (
                         <>
                             <DialogHeader>
                                 <DialogTitle>Update Players Name</DialogTitle>
