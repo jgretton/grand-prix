@@ -1,7 +1,7 @@
 import Heading from '@/components/heading';
 import DeleteTournamentModal from '@/components/modals/delete-tournament';
 import ResultsGrid from '@/components/tournaments/results-grid';
-import ScoringGrid from '@/components/tournaments/scoring-grid';
+import ScoringGrid from '@/components/tournaments/scoring-grid-2';
 import StatusBadge from '@/components/tournaments/status-badge';
 import TeamList from '@/components/tournaments/team-list';
 import WinnerCard from '@/components/tournaments/winner-card';
@@ -31,9 +31,10 @@ export default function TournamentPage({
     tournament: Tournament;
     finalScores: FinalScore[];
 }) {
-    const [localStatus, setLocalStatus] = useState<
-        'not-started' | 'in-progress'
-    >(tournament.rounds.length > 0 ? 'in-progress' : 'not-started');
+    const [localStatus, setLocalStatus] = useState('in-progress');
+    // const [localStatus, setLocalStatus] = useState<
+    //     'not-started' | 'in-progress'
+    // >(tournament.rounds.length > 0 ? 'in-progress' : 'not-started');
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     const tournamentStatus: TournamentStatus = tournament.is_completed

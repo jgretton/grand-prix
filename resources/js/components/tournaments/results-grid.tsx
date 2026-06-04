@@ -1,4 +1,12 @@
 import type { FinalScore, Tournament } from '@/types';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '../ui/table';
 
 export default function ResultsGrid({
     tournament,
@@ -8,48 +16,58 @@ export default function ResultsGrid({
     finalScores: FinalScore[];
 }) {
     return (
-        <div
-            className="grid w-full gap-x-3 rounded-md border text-center"
-            style={{
-                gridTemplateColumns: `auto 1fr repeat(${tournament.rounds.length}, 3rem)  auto`,
-            }}
-        >
-            <div className="col-span-full grid grid-cols-subgrid border-b bg-gray-100 px-4 py-2">
-                <div className="text-center">#</div>
-                <div />
-                {tournament.rounds.map((round) => (
-                    <div
-                        className="inline-flex place-content-center items-center gap-1"
-                        key={round.round_number}
-                    >
-                        <p className="text-center text-sm font-semibold text-muted-foreground">
-                            R{round.round_number}
-                        </p>
-                    </div>
-                ))}
-
-                <p className="self-center px-2 text-center text-sm">Scores</p>
-            </div>
-            {finalScores.map((team, idx) => (
-                <div
-                    className="col-span-full grid grid-cols-subgrid border-b px-4 py-4"
-                    key={team.team.id}
-                >
-                    <div className="place-content-center text-center">
-                        {idx + 1}
-                    </div>
-                    <div className="border-r-2 px-4 text-left">
-                        <p className="font-medium">{team.team.name}</p>
-                    </div>
-                    {team.round_scores.map((round) => (
-                        <p>{round.score}</p>
+        <div className="overflow-auto rounded-md border">
+            <Table>
+                <TableHeader className="sticky top-0 z-20 bg-background">
+                    <TableRow>
+                        <TableHead
+                            className="sticky left-0 z-10 w-px whitespace-nowrap bg-background"
+                            style={{ boxShadow: '1px 0 0 0 var(--color-border)' }}
+                        >
+                            Team
+                        </TableHead>
+                        {tournament.rounds.map((round) => (
+                            <TableHead
+                                key={round.round_number}
+                                className="w-32 text-center"
+                            >
+                                R{round.round_number}
+                            </TableHead>
+                        ))}
+                        <TableHead className="sticky right-0 z-10 bg-background text-right font-semibold">
+                            Total
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {finalScores.map((entry, idx) => (
+                        <TableRow key={entry.team.id}>
+                            <TableCell
+                                className="sticky left-0 z-10 w-px whitespace-nowrap bg-background py-3 font-medium"
+                                style={{ boxShadow: '1px 0 0 0 var(--color-border)' }}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <span className="text-muted-foreground">
+                                        {idx + 1}
+                                    </span>
+                                    {entry.team.name}
+                                </div>
+                            </TableCell>
+                            {tournament.rounds.map((round, roundIdx) => (
+                                <TableCell
+                                    key={round.round_number}
+                                    className="w-32 py-3 text-center"
+                                >
+                                    {entry.round_scores[roundIdx]?.score ?? '–'}
+                                </TableCell>
+                            ))}
+                            <TableCell className="sticky right-0 z-10 bg-background py-3 text-right font-semibold">
+                                {entry.final_score}
+                            </TableCell>
+                        </TableRow>
                     ))}
-
-                    <p className="sticky self-center border-l font-medium">
-                        {team.final_score}
-                    </p>
-                </div>
-            ))}
+                </TableBody>
+            </Table>
         </div>
     );
 }
