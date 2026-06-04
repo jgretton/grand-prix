@@ -105,7 +105,14 @@ const CreateTournamentForm = ({ seasons }: { seasons: Seasons }) => {
                             onClick={() => handleTournamentSubmission()}
                             disabled={processing}
                         >
-                            {processing ? <Loader2Icon /> : 'Start Tournament'}
+                            {processing ? (
+                                <>
+                                    <Loader2Icon className="animate-spin" />
+                                    Creating...
+                                </>
+                            ) : (
+                                'Start Tournament'
+                            )}
                         </Button>
                     </div>
                 </div>

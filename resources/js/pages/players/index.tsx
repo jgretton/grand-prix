@@ -17,16 +17,16 @@ export default function PlayersPage({ players }: PlayersPageProps) {
         <>
             <Head title="Players" />
             <div className="mt-4 flex flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex w-full items-center justify-between">
-                    <Heading
-                        title="Players"
-                        description="Here you can manage all players withing the application."
-                    />
-                    <AddPlayerModal
-                        modalOpen={modalOpen}
-                        setModalOpen={setModalOpen}
-                    />
-                </div>
+                <Heading
+                    title="Players"
+                    description="Here you can manage all players withing the application."
+                    action={
+                        <AddPlayerModal
+                            modalOpen={modalOpen}
+                            setModalOpen={setModalOpen}
+                        />
+                    }
+                />
 
                 <DataTable columns={columns} data={players} />
             </div>

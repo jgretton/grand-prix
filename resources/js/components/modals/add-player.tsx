@@ -31,7 +31,8 @@ export default function AddPlayerModal({
         <Dialog onOpenChange={setModalOpen} open={modalOpen}>
             <DialogTrigger asChild>
                 <Button variant="default">
-                    <PlusIcon /> Add Player
+                    <PlusIcon />
+                    <span className="hidden sm:inline">Add Player</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-sm">
@@ -88,9 +89,12 @@ export default function AddPlayerModal({
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? (
-                                        <Loader2Icon className="animate-spin" />
+                                        <>
+                                            <Loader2Icon className="animate-spin" />
+                                            Adding...
+                                        </>
                                     ) : (
-                                        'Save changes'
+                                        'Add Player'
                                     )}
                                 </Button>
                             </DialogFooter>

@@ -1,5 +1,3 @@
-import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Menu, Trophy, Users2 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import AppLogoIcon from '@/components/app-logo-icon';
 import { Breadcrumbs } from '@/components/breadcrumbs';
@@ -30,6 +28,8 @@ import { cn } from '@/lib/utils';
 import { dashboard, leaderboard } from '@/routes';
 import players from '@/routes/players';
 import type { BreadcrumbItem, NavItem } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { LayoutGrid, Menu, Trophy, Users2 } from 'lucide-react';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -64,7 +64,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
     return (
         <>
-            <div className="border-b border-sidebar-border/80">
+            <div className="sticky top-0 z-40 border-b border-sidebar-border/80 bg-white">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                     {/* Mobile Menu */}
                     <div className="lg:hidden">

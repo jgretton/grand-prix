@@ -1,5 +1,5 @@
 import { useForm } from '@inertiajs/react';
-import { PlusIcon, XIcon } from 'lucide-react';
+import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import type { Round, Tournament } from '@/types';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -185,7 +185,14 @@ export default function ScoringGrid({
                 onClick={submitRoundScores}
                 disabled={processing}
             >
-                {processing ? 'Submitting...' : 'Submit score'}
+                {processing ? (
+                    <>
+                        <Loader2Icon className="animate-spin" />
+                        Submitting...
+                    </>
+                ) : (
+                    'Submit score'
+                )}
             </Button>
         </>
     );

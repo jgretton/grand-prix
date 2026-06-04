@@ -48,27 +48,30 @@ export default function TournamentPage({
                 modalOpen={deleteModalOpen}
                 setModalOpen={setDeleteModalOpen}
             />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <div className="flex items-start justify-between gap-4">
-                    <Heading
-                        title="Tournament Details"
-                        description={`Name: ${tournament.name}`}
-                    />
-                    <div className="space-x-2">
-                        <Link href={`/tournaments/${tournament.id}/edit`}>
-                            <Button variant="outline">
-                                <PencilIcon /> Edit Tournament
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <Heading
+                    title="Tournament Details"
+                    description={`Name: ${tournament.name}`}
+                    action={
+                        <div className="space-x-2">
+                            <Link href={`/tournaments/${tournament.id}/edit`}>
+                                <Button variant="outline">
+                                    <PencilIcon />
+                                    <span className="hidden sm:inline">
+                                        Edit Tournament
+                                    </span>
+                                </Button>
+                            </Link>
+                            <Button
+                                onClick={() => setDeleteModalOpen(true)}
+                                variant="destructive"
+                                size={'icon'}
+                            >
+                                <Trash2Icon />
                             </Button>
-                        </Link>
-                        <Button
-                            onClick={() => setDeleteModalOpen(true)}
-                            variant="destructive"
-                            size={'icon'}
-                        >
-                            <Trash2Icon />
-                        </Button>
-                    </div>
-                </div>
+                        </div>
+                    }
+                />
 
                 <div className="flex w-full flex-col">
                     <div className="flex flex-row items-center gap-2">
@@ -127,31 +130,37 @@ export default function TournamentPage({
                         </div>
                         <div className="border-t pt-10">
                             <Heading title="Scoring" />
-                            <ScoringGrid tournament={tournament} />
+                            <div className="overflow-x-auto">
+                                <ScoringGrid tournament={tournament} />
+                            </div>
                         </div>
                     </>
                 )}
 
                 {tournamentStatus === 'completed' && (
-                    <div>
+                    <div className="relative">
                         <WinnerCard finalScores={finalScores} />
 
                         <Heading title="Final scores" />
-                        <ResultsGrid
-                            tournament={tournament}
-                            finalScores={finalScores}
-                        />
+                        <div className="overflow-x-auto">
+                            <ResultsGrid
+                                tournament={tournament}
+                                finalScores={finalScores}
+                            />
+                        </div>
                         <div className="mt-10">
                             <Collapsible>
-                                <CollapsibleTrigger asChild>
-                                    <Button
-                                        variant="secondary"
-                                        className="group w-full"
-                                    >
-                                        Teams
-                                        <ChevronDownIcon className="ml-auto group-data-[state=open]:rotate-180" />
-                                    </Button>
-                                </CollapsibleTrigger>
+                                <div className="sticky top-16 z-10 bg-background pb-1">
+                                    <CollapsibleTrigger asChild>
+                                        <Button
+                                            variant="secondary"
+                                            className="group w-full"
+                                        >
+                                            Teams
+                                            <ChevronDownIcon className="ml-auto group-data-[state=open]:rotate-180" />
+                                        </Button>
+                                    </CollapsibleTrigger>
+                                </div>
                                 <CollapsibleContent>
                                     <div className="mt-3 flex w-full flex-row flex-wrap">
                                         {tournament.teams?.map((team) => (

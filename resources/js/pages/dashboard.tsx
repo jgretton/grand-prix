@@ -107,14 +107,17 @@ export default function Dashboard({ seasons, season }: DashboardPageProps) {
                 </Card>
 
                 <div className="mt-10">
-                    <div className="inline-flex w-full justify-between">
-                        <Heading title="Tournaments" />
-                        <Link href={'/tournaments/create'}>
-                            <Button>
-                                <PlusIcon /> New Tournament
-                            </Button>
-                        </Link>
-                    </div>
+                    <Heading
+                        title="Tournaments"
+                        action={
+                            <Link href={'/tournaments/create'}>
+                                <Button>
+                                    <PlusIcon />
+                                    <span className="hidden sm:inline">New Tournament</span>
+                                </Button>
+                            </Link>
+                        }
+                    />
                     {season.tournaments?.length === 0 ? (
                         <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                             <Empty className="mx-auto w-full max-w-lg">

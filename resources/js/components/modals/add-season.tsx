@@ -96,9 +96,12 @@ export default function AddSeasonModal({
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? (
-                                        <Loader2Icon className="animate-spin" />
+                                        <>
+                                            <Loader2Icon className="animate-spin" />
+                                            Adding...
+                                        </>
                                     ) : (
-                                        'Save changes'
+                                        'Add Season'
                                     )}
                                 </Button>
                             </DialogFooter>

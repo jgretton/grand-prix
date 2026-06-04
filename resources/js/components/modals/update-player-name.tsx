@@ -63,9 +63,12 @@ export default function UpdatePlayerNameModal({
                                 </DialogClose>
                                 <Button type="submit" disabled={processing}>
                                     {processing ? (
-                                        <Loader2Icon className="animate-spin" />
+                                        <>
+                                            <Loader2Icon className="animate-spin" />
+                                            Updating...
+                                        </>
                                     ) : (
-                                        'Update'
+                                        'Save changes'
                                     )}
                                 </Button>
                             </DialogFooter>
