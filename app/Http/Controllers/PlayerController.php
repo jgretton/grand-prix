@@ -49,6 +49,8 @@ class PlayerController extends Controller
 
         Player::create($validated);
 
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player created.']);
+
         return redirect()->route('players.index');
     }
 
@@ -83,6 +85,8 @@ class PlayerController extends Controller
 
         $player->update($validated);
 
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player updated.']);
+
         return redirect()->back();
     }
 
@@ -94,12 +98,17 @@ class PlayerController extends Controller
         //
         $player->delete();
 
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Player deleted.']);
+
         return redirect()->back();
     }
 
     public function toggleActive(Player $player)
     {
-        $player->update(['is_active' => ! $player->is_active]);
+        $active = ! $player->is_active;
+        $player->update(['is_active' => $active]);
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => $active ? 'Player activated.' : 'Player deactivated.']);
 
         return redirect()->back();
     }

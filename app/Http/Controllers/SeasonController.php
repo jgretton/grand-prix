@@ -6,6 +6,7 @@ use App\Models\Season;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class SeasonController extends Controller
 {
@@ -50,11 +51,13 @@ class SeasonController extends Controller
                 $currentSeason->update(['is_current' => false]);
             }
 
-            Season::create($validated);
+            $season= Season::create($validated);
 
             DB::commit();
 
-            return redirect()->route('dashboard');
+            Inertia::flash('toast', ['type' => 'success', 'message' => 'Season created.']);
+
+            return redirect()->route('dashboard', ['season' => $season->id]);
         } catch (\Exception $e) {
             // DB::rollBack();
             Log::error('Unexpected error: '.$e->getMessage());
@@ -101,6 +104,8 @@ class SeasonController extends Controller
         } else {
             $season->delete();
 
+            Inertia::flash('toast', ['type' => 'success', 'message' => 'Season deleted.']);
+
             return redirect()->route('dashboard');
         }
     }
@@ -124,6 +129,8 @@ class SeasonController extends Controller
                 $season->update(['is_current' => true]);
 
                 DB::commit();
+
+                Inertia::flash('toast', ['type' => 'success', 'message' => 'Active season updated.']);
 
                 return redirect()->route('dashboard');
             } catch (\Exception $e) {
