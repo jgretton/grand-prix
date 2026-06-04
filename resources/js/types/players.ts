@@ -28,5 +28,5 @@ export type Team = {
     id?: string;
     name: string;
     players: Players;
-    player_teams: PlayerTeams[];
+    player_teams?: PlayerTeams[];
 };

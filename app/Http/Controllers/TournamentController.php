@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTournamentRequest;
+use App\Http\Requests\UpdateTournamentRequest;
 use App\Models\Player;
 use App\Models\PlayerTeam;
 use App\Models\Season;
 use App\Models\Team;
 use App\Models\Tournament;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -63,6 +63,8 @@ class TournamentController extends Controller
 
             DB::commit();
 
+            Inertia::flash('toast', ['type' => 'success', 'message' => 'Tournament created.']);
+
             return redirect()->route('tournaments.show', $tournament);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -110,17 +112,56 @@ class TournamentController extends Controller
     public function edit(Tournament $tournament)
     {
         //
+        $activePlayers = Player::where('is_active', true)->select(['name', 'id', 'is_active'])->get();
+
+        $seasons = Season::get(['id', 'name', 'is_current']);
+
         return Inertia::render('tournaments/edit', [
-            'tournament' => $tournament,
+            'tournament' => $tournament->load(['teams.playerTeams.player']),
+            'seasons' => $seasons,
+            'activePlayers' => $activePlayers,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tournament $tournament)
+    public function update(UpdateTournamentRequest $request, Tournament $tournament)
     {
-        //
+        $validated = $request->validated();
+
+        if ($tournament->is_completed) {
+            $tournament->update(['name' => $validated['name'], 'season_id' => $validated['season_id']]);
+
+            Inertia::flash('toast', ['type' => 'success', 'message' => 'Tournament updated.']);
+
+            return redirect()->route('tournaments.show', $tournament);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $tournament->delete();
+
+            $newTournament = Tournament::create(['name' => $validated['name'], 'season_id' => $validated['season_id']]);
+
+            foreach ($validated['teams'] as $team) {
+                $createdTeam = Team::create(['name' => $team['name'], 'tournament_id' => $newTournament->id]);
+
+                foreach ($team['players'] as $player) {
+                    PlayerTeam::create(['team_id' => $createdTeam->id, 'player_id' => $player]);
+                }
+            }
+
+            DB::commit();
+
+            Inertia::flash('toast', ['type' => 'success', 'message' => 'Tournament updated.']);
+
+            return redirect()->route('tournaments.show', $newTournament);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     /**
@@ -128,6 +169,12 @@ class TournamentController extends Controller
      */
     public function destroy(Tournament $tournament)
     {
-        //
+        $seasonId = $tournament->season_id;
+
+        $tournament->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => 'Tournament deleted.']);
+
+        return redirect()->route('dashboard', ['season' => $seasonId]);
     }
 }

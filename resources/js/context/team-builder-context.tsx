@@ -1,17 +1,19 @@
 import { createContext, useContext, useState } from 'react';
 import type { Player, Players, Team } from '@/types/players';
 
-const initialTeams: Team[] = [
+const defaultTeams: Team[] = [
     {
         id: crypto.randomUUID(),
         name: 'Team 1',
         players: [],
+        player_teams: [],
     },
 ];
 
 interface TeamBuilderProviderProps {
     activePlayers: Players;
     children: React.ReactNode;
+    initialTeams?: Team[];
 }
 
 interface TeamBuilderContextType {
@@ -33,8 +35,9 @@ const TeamBuilderContext = createContext<TeamBuilderContextType | null>(null);
 export function TeamBuilderProvider({
     activePlayers,
     children,
+    initialTeams,
 }: TeamBuilderProviderProps) {
-    const [teams, setTeams] = useState<Team[]>(initialTeams);
+    const [teams, setTeams] = useState<Team[]>(initialTeams ?? defaultTeams);
 
     const availablePlayers = activePlayers.filter(
         (player) =>
@@ -91,8 +94,8 @@ export function TeamBuilderProvider({
         initialTeamId: string,
     ) => {
         if (targetTeamId === initialTeamId) {
-return;
-}
+            return;
+        }
 
         const player = teams
             .find((team) => team.id === initialTeamId)

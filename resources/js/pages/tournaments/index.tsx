@@ -1,4 +1,5 @@
 import Heading from '@/components/heading';
+import DeleteTournamentModal from '@/components/modals/delete-tournament';
 import ResultsGrid from '@/components/tournaments/results-grid';
 import ScoringGrid from '@/components/tournaments/scoring-grid';
 import StatusBadge from '@/components/tournaments/status-badge';
@@ -14,7 +15,13 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@radix-ui/react-collapsible';
-import { ChevronDownIcon, PencilIcon, PlayIcon, UsersIcon } from 'lucide-react';
+import {
+    ChevronDownIcon,
+    PencilIcon,
+    PlayIcon,
+    Trash2Icon,
+    UsersIcon,
+} from 'lucide-react';
 import { useState } from 'react';
 
 export default function TournamentPage({
@@ -27,6 +34,7 @@ export default function TournamentPage({
     const [localStatus, setLocalStatus] = useState<
         'not-started' | 'in-progress'
     >(tournament.rounds.length > 0 ? 'in-progress' : 'not-started');
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     const tournamentStatus: TournamentStatus = tournament.is_completed
         ? 'completed'
@@ -35,14 +43,31 @@ export default function TournamentPage({
     return (
         <>
             <Head title="Dashboard" />
+            <DeleteTournamentModal
+                tournament={tournament}
+                modalOpen={deleteModalOpen}
+                setModalOpen={setDeleteModalOpen}
+            />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="flex items-start justify-between gap-4">
-                    <Heading title="Tournament Details" />
-                    <Link href={`/tournaments/${tournament.id}/edit`}>
-                        <Button variant="outline" className="w-full sm:w-auto">
-                            <PencilIcon /> Edit Tournament
+                    <Heading
+                        title="Tournament Details"
+                        description={`Name: ${tournament.name}`}
+                    />
+                    <div className="space-x-2">
+                        <Link href={`/tournaments/${tournament.id}/edit`}>
+                            <Button variant="outline">
+                                <PencilIcon /> Edit Tournament
+                            </Button>
+                        </Link>
+                        <Button
+                            onClick={() => setDeleteModalOpen(true)}
+                            variant="destructive"
+                            size={'icon'}
+                        >
+                            <Trash2Icon />
                         </Button>
-                    </Link>
+                    </div>
                 </div>
 
                 <div className="flex w-full flex-col">
