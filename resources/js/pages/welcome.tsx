@@ -1,5 +1,3 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarIcon, TrophyIcon } from 'lucide-react';
 import LeaderboardTable from '@/components/leaderboard/leaderboard-table';
 import {
     Empty,
@@ -11,6 +9,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { dashboard, login } from '@/routes';
 import type { Players, Season, Seasons, Tournament } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CalendarIcon, TrophyIcon } from 'lucide-react';
 
 export default function Welcome({
     tournaments,
@@ -44,7 +44,7 @@ export default function Welcome({
                     rel="stylesheet"
                 />
             </Head>
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
+            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-3 text-[#1b1b18] lg:p-8 dark:bg-[#0a0a0a]">
                 <header className="mb-6 w-full max-w-7xl text-sm">
                     <nav className="flex items-center justify-end gap-4">
                         {auth.user ? (
