@@ -34,7 +34,7 @@ export default function LeaderboardTable({
                     <TableRow>
                         <TableHead className="sticky left-0 z-10 bg-background">
                             <div className="flex items-center gap-2">
-                                <span className="w-7 shrink-0 text-center text-muted-foreground">
+                                <span className="mr-4 w-7 shrink-0 text-center text-muted-foreground">
                                     #
                                 </span>
                                 Name
@@ -57,7 +57,7 @@ export default function LeaderboardTable({
                     {players.map((player, idx) => (
                         <TableRow key={player.id}>
                             <TableCell
-                                className="sticky left-0 z-10 bg-background font-medium"
+                                className="sticky left-0 z-10 bg-background py-3 font-medium"
                                 style={{
                                     boxShadow: [
                                         '1px 0 0 0 var(--color-border)',
@@ -69,18 +69,18 @@ export default function LeaderboardTable({
                                         .join(', '),
                                 }}
                             >
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-5">
                                     {players[idx - 1]?.rank === player.rank ? (
                                         <span className="h-7 w-7 shrink-0" />
                                     ) : player.rank &&
                                       rankBadge[player.rank] ? (
                                         <span
-                                            className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${rankBadge[player.rank]}`}
+                                            className={`ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${rankBadge[player.rank]}`}
                                         >
                                             {player.rank}
                                         </span>
                                     ) : (
-                                        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center text-sm text-muted-foreground">
+                                        <span className="ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center text-sm text-muted-foreground">
                                             {player.rank}
                                         </span>
                                     )}
@@ -95,13 +95,13 @@ export default function LeaderboardTable({
                                 return (
                                     <TableCell
                                         key={t.id}
-                                        className="text-center"
+                                        className="py-3 text-center"
                                     >
                                         {score ?? '-'}
                                     </TableCell>
                                 );
                             })}
-                            <TableCell className="sticky right-0 z-10 bg-background text-right font-semibold">
+                            <TableCell className="sticky right-0 z-10 bg-background py-3 text-right font-semibold">
                                 {player.player_scores_sum_score}
                             </TableCell>
                         </TableRow>
