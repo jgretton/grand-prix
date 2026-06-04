@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Season;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,7 +18,8 @@ describe('Authenticated user', function () {
 
         $response = post('/seasons', ['name' => '23/24', 'is_current' => true]);
         assertDatabaseHas('seasons', ['name' => '23/24', 'is_current' => true]);
-        $response->assertRedirect('/dashboard');
+        $season = Season::where('name', '23/24')->first();
+        $response->assertRedirect('/dashboard?season=' . $season->id);
     });
     describe('Season Creation Validation', function () {
 
