@@ -1,7 +1,7 @@
 import Heading from '@/components/heading';
 import DeleteTournamentModal from '@/components/modals/delete-tournament';
 import ResultsGrid from '@/components/tournaments/results-grid';
-import ScoringGrid from '@/components/tournaments/scoring-grid-2';
+import ScoringGrid from '@/components/tournaments/scoring-grid';
 import StatusBadge from '@/components/tournaments/status-badge';
 import TeamList from '@/components/tournaments/team-list';
 import WinnerCard from '@/components/tournaments/winner-card';
@@ -31,15 +31,26 @@ export default function TournamentPage({
     tournament: Tournament;
     finalScores: FinalScore[];
 }) {
-    const [localStatus, setLocalStatus] = useState('in-progress');
-    // const [localStatus, setLocalStatus] = useState<
-    //     'not-started' | 'in-progress'
-    // >(tournament.rounds.length > 0 ? 'in-progress' : 'not-started');
+    const [localStatus, setLocalStatus] = useState<
+        'not-started' | 'in-progress'
+    >(() => {
+        const storedStatus = localStorage.getItem(
+            `tournament-status-${tournament.id}`,
+        );
+
+        return storedStatus === 'in-progress' ? 'in-progress' : 'not-started';
+    });
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
     const tournamentStatus: TournamentStatus = tournament.is_completed
         ? 'completed'
         : localStatus;
+
+    const updateLocalStatus = (status: 'not-started' | 'in-progress') => {
+        setLocalStatus(status);
+
+        localStorage.setItem(`tournament-status-${tournament.id}`, status);
+    };
 
     return (
         <>
@@ -101,7 +112,7 @@ export default function TournamentPage({
                                     <Button
                                         className="self-end"
                                         onClick={() =>
-                                            setLocalStatus('in-progress')
+                                            updateLocalStatus('in-progress')
                                         }
                                     >
                                         <PlayIcon />
@@ -124,7 +135,7 @@ export default function TournamentPage({
                             <Button
                                 variant={'outline'}
                                 className="w-full sm:w-auto"
-                                onClick={() => setLocalStatus('not-started')}
+                                onClick={() => updateLocalStatus('not-started')}
                             >
                                 <UsersIcon /> View Teams
                             </Button>
