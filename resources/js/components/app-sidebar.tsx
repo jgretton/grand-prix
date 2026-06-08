@@ -1,5 +1,3 @@
-import { Link } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -14,11 +12,22 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
+import { Link } from '@inertiajs/react';
+import { LayoutGrid } from 'lucide-react';
+import { NavFooter } from './nav-footer';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
+        icon: LayoutGrid,
+    },
+];
+
+const footerNavItems: NavItem[] = [
+    {
+        title: 'Repository',
+        href: 'https://github.com/YOUR_USERNAME/grand-prix',
         icon: LayoutGrid,
     },
 ];
@@ -43,6 +52,8 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
+                <NavFooter items={footerNavItems} />
+
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

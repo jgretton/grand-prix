@@ -1,4 +1,3 @@
-import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
@@ -10,11 +9,17 @@ import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
+import { Form, Head } from '@inertiajs/react';
 
 type Props = {
     status?: string;
     canResetPassword: boolean;
     canRegister: boolean;
+};
+
+const demoUser = {
+    email: 'account@grandprixdemo.com',
+    password: 'shhh-its-a-secret',
 };
 
 export default function Login({
@@ -45,6 +50,7 @@ export default function Login({
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@example.com"
+                                    defaultValue={demoUser.email}
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -69,6 +75,7 @@ export default function Login({
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Password"
+                                    defaultValue={demoUser.password}
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -80,6 +87,9 @@ export default function Login({
                                     tabIndex={3}
                                 />
                                 <Label htmlFor="remember">Remember me</Label>
+                            </div>
+                            <div className="text-left text-sm text-muted-foreground">
+                                Demo account details restore on refresh.
                             </div>
 
                             <Button
