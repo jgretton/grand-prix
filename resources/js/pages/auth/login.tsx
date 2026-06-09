@@ -1,6 +1,7 @@
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -10,6 +11,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
+import { AlertCircleIcon } from 'lucide-react';
 
 type Props = {
     status?: string;
@@ -30,7 +32,15 @@ export default function Login({
     return (
         <>
             <Head title="Log in" />
+            <Alert className="border-amber-300 bg-amber-50">
+                <AlertCircleIcon />
 
+                <AlertTitle>Demo Account</AlertTitle>
+                <AlertDescription>
+                    You can explore the full app but no changes can be made.
+                    Credentials restore on refresh.
+                </AlertDescription>
+            </Alert>
             <Form
                 {...store.form()}
                 resetOnSuccess={['password']}
@@ -88,9 +98,9 @@ export default function Login({
                                 />
                                 <Label htmlFor="remember">Remember me</Label>
                             </div>
-                            <div className="text-left text-sm text-muted-foreground">
+                            {/* <div className="text-left text-sm text-muted-foreground">
                                 Demo account details restore on refresh.
-                            </div>
+                            </div> */}
 
                             <Button
                                 type="submit"

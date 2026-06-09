@@ -1,7 +1,7 @@
-import { router } from '@inertiajs/react';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
 import type { FlashToast } from '@/types/ui';
+import { router } from '@inertiajs/react';
+import { createElement, useEffect } from 'react';
+import { toast } from 'sonner';
 
 export function useFlashToast(): void {
     useEffect(() => {
@@ -13,7 +13,20 @@ export function useFlashToast(): void {
                 return;
             }
 
-            toast[data.type](data.message);
+            const description = data.link
+                ? createElement(
+                      'span',
+                      null,
+                      data.description + ' ',
+                      createElement(
+                          'a',
+                          { href: data.link.url, target: '_blank', rel: 'noopener noreferrer', className: 'underline' },
+                          data.link.label,
+                      ),
+                  )
+                : data.description;
+
+            toast[data.type](data.message, { description });
         });
     }, []);
 }
