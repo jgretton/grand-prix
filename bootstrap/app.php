@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Middleware\DemoAccount;
-use App\Http\Middleware\HandleAppearance;
+// use App\Http\Middleware\HandleAppearance; // Uncomment for dark mode
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(['demo' => DemoAccount::class]);
 
         $middleware->web(append: [
-            HandleAppearance::class,
+            // HandleAppearance::class, // Uncomment for dark mode
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
