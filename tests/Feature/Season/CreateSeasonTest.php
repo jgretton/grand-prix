@@ -19,7 +19,7 @@ describe('Authenticated user', function () {
         $response = post('/seasons', ['name' => '23/24', 'is_current' => true]);
         assertDatabaseHas('seasons', ['name' => '23/24', 'is_current' => true]);
         $season = Season::where('name', '23/24')->first();
-        $response->assertRedirect('/dashboard?season=' . $season->id);
+        $response->assertRedirect('/dashboard?season='.$season->id);
     });
     describe('Season Creation Validation', function () {
 

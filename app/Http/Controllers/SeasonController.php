@@ -51,7 +51,7 @@ class SeasonController extends Controller
                 $currentSeason->update(['is_current' => false]);
             }
 
-            $season= Season::create($validated);
+            $season = Season::create($validated);
 
             DB::commit();
 
