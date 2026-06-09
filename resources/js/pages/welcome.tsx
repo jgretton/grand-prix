@@ -1,3 +1,5 @@
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CalendarIcon, TrophyIcon } from 'lucide-react';
 import LeaderboardTable from '@/components/leaderboard/leaderboard-table';
 import {
     Empty,
@@ -9,8 +11,6 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { dashboard, login } from '@/routes';
 import type { Players, Season, Seasons, Tournament } from '@/types';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarIcon, TrophyIcon } from 'lucide-react';
 
 export default function Welcome({
     tournaments,

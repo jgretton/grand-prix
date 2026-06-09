@@ -1,3 +1,5 @@
+import { Form, Head } from '@inertiajs/react';
+import { useEffect, useRef } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
@@ -10,8 +12,6 @@ import { Label } from '@/components/ui/label';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import { edit } from '@/routes/security';
 // import { disable, enable } from '@/routes/two-factor'; // needed for the 2fa enable/disable buttons
-import { Form, Head } from '@inertiajs/react';
-import { useEffect, useRef, useState } from 'react';
 
 type Props = {
     canManageTwoFactor?: boolean;
@@ -20,25 +20,25 @@ type Props = {
 };
 
 export default function Security({
-    canManageTwoFactor = false,
-    requiresConfirmation = false,
+    // canManageTwoFactor = false,
+    // requiresConfirmation = false,
     twoFactorEnabled = false,
 }: Props) {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     const {
-        qrCodeSvg,
-        hasSetupData,
-        manualSetupKey,
-        clearSetupData,
+        // qrCodeSvg,
+        // hasSetupData,
+        // manualSetupKey,
+        // clearSetupData,
         clearTwoFactorAuthData,
-        fetchSetupData,
-        recoveryCodesList,
-        fetchRecoveryCodes,
-        errors,
+        // fetchSetupData,
+        // recoveryCodesList,
+        // fetchRecoveryCodes,
+        // errors,
     } = useTwoFactorAuth();
-    const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
+    // const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
     const prevTwoFactorEnabled = useRef(twoFactorEnabled);
 
     useEffect(() => {
