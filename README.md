@@ -48,12 +48,16 @@ At the moment, the coach writes scores on a whiteboard, takes a photo, then manu
 
 You can explore the app using the demo account on the [live demo](https://grand-prix.laravel.cloud), or clone the repo and run it locally.
 
+<br>
+
 **Demo account**
 
 - **Email:** account@grandprixdemo.com
 - **Password:** shhh-its-a-secret
 
 Browsing is unrestricted. Any attempt to create, update, or delete data will be blocked (I have trust issues with you lot).
+
+<br>
 
 **Run locally**
 
@@ -66,20 +70,25 @@ composer install
 npm install
 ```
 
-2. Configure your environment
+
+
+1. Configure your environment
 
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
-3. Run migrations, seed a user, and start the server
+
+
+1. Run migrations, seed a user, and start the server
 
 ```bash
 php artisan migrate
 php artisan db:seed
 composer run dev
 ```
+
 
 Registration is disabled. The seeder creates a default account (`test@example.com` / `password`) and seeds 30 players so you have data to work with straight away.
 
