@@ -1,13 +1,15 @@
 import { Form, Head } from '@inertiajs/react';
+import { AlertCircleIcon } from 'lucide-react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import TextLink from '@/components/text-link';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { register } from '@/routes';
+// import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
@@ -17,15 +19,28 @@ type Props = {
     canRegister: boolean;
 };
 
+const demoUser = {
+    email: 'account@grandprixdemo.com',
+    password: 'shhh-its-a-secret',
+};
+
 export default function Login({
     status,
     canResetPassword,
-    canRegister,
+    // canRegister,
 }: Props) {
     return (
         <>
             <Head title="Log in" />
+            <Alert className="border-amber-300 bg-amber-50">
+                <AlertCircleIcon />
 
+                <AlertTitle>Demo Account</AlertTitle>
+                <AlertDescription>
+                    You can explore the full app but no changes can be made.
+                    Credentials restore on refresh.
+                </AlertDescription>
+            </Alert>
             <Form
                 {...store.form()}
                 resetOnSuccess={['password']}
@@ -45,6 +60,7 @@ export default function Login({
                                     tabIndex={1}
                                     autoComplete="email"
                                     placeholder="email@example.com"
+                                    defaultValue={demoUser.email}
                                 />
                                 <InputError message={errors.email} />
                             </div>
@@ -69,6 +85,7 @@ export default function Login({
                                     tabIndex={2}
                                     autoComplete="current-password"
                                     placeholder="Password"
+                                    defaultValue={demoUser.password}
                                 />
                                 <InputError message={errors.password} />
                             </div>
@@ -81,6 +98,9 @@ export default function Login({
                                 />
                                 <Label htmlFor="remember">Remember me</Label>
                             </div>
+                            {/* <div className="text-left text-sm text-muted-foreground">
+                                Demo account details restore on refresh.
+                            </div> */}
 
                             <Button
                                 type="submit"
@@ -94,14 +114,14 @@ export default function Login({
                             </Button>
                         </div>
 
-                        {canRegister && (
+                        {/* {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
                                 Don't have an account?{' '}
                                 <TextLink href={register()} tabIndex={5}>
                                     Sign up
                                 </TextLink>
                             </div>
-                        )}
+                        )} */}
                     </>
                 )}
             </Form>

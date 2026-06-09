@@ -1,7 +1,7 @@
-import type { Round, RoundScore, Tournament } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import type { Round, RoundScore, Tournament } from '@/types';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import {
@@ -116,6 +116,7 @@ export default function ScoringGrid({
             '[data-slot="table-container"]',
         ) as HTMLElement | null;
         const target = inner ?? scrollRef.current;
+
         if (target) {
             target.scrollLeft = target.scrollWidth;
         }

@@ -1,7 +1,7 @@
-import TournamentController from '@/actions/App/Http/Controllers/TournamentController';
-import type { Tournament } from '@/types';
 import { Form } from '@inertiajs/react';
 import { LoaderCircleIcon, Trash2Icon } from 'lucide-react';
+import TournamentController from '@/actions/App/Http/Controllers/TournamentController';
+import type { Tournament } from '@/types';
 import {
     AlertDialog,
     AlertDialogCancel,

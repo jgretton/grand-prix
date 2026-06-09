@@ -1,3 +1,6 @@
+import { Head, router } from '@inertiajs/react';
+import { Loader2Icon, PlusIcon } from 'lucide-react';
+import { useState } from 'react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import SeasonsSelector from '@/components/seasons/seasons-selector';
@@ -13,9 +16,6 @@ import {
 import { dashboard } from '@/routes';
 import tournaments from '@/routes/tournaments';
 import type { Players, Season, Seasons, Tournament } from '@/types';
-import { Head, router } from '@inertiajs/react';
-import { Loader2Icon, PlusIcon } from 'lucide-react';
-import { useState } from 'react';
 
 function EditTournamentForm({
     tournament,

@@ -14,11 +14,20 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
+import { NavFooter } from './nav-footer';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
+        icon: LayoutGrid,
+    },
+];
+
+const footerNavItems: NavItem[] = [
+    {
+        title: 'Repository',
+        href: 'https://github.com/YOUR_USERNAME/grand-prix',
         icon: LayoutGrid,
     },
 ];
@@ -43,6 +52,8 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
+                <NavFooter items={footerNavItems} />
+
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

@@ -1,15 +1,3 @@
-import Heading from '@/components/heading';
-import DeleteTournamentModal from '@/components/modals/delete-tournament';
-import ResultsGrid from '@/components/tournaments/results-grid';
-import ScoringGrid from '@/components/tournaments/scoring-grid';
-import StatusBadge from '@/components/tournaments/status-badge';
-import TeamList from '@/components/tournaments/team-list';
-import WinnerCard from '@/components/tournaments/winner-card';
-import { Button } from '@/components/ui/button';
-import { Collapsible } from '@/components/ui/collapsible';
-import { dashboard } from '@/routes';
-import tournaments from '@/routes/tournaments';
-import type { FinalScore, Tournament, TournamentStatus } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
     CollapsibleContent,
@@ -23,6 +11,18 @@ import {
     UsersIcon,
 } from 'lucide-react';
 import { useState } from 'react';
+import Heading from '@/components/heading';
+import DeleteTournamentModal from '@/components/modals/delete-tournament';
+import ResultsGrid from '@/components/tournaments/results-grid';
+import ScoringGrid from '@/components/tournaments/scoring-grid';
+import StatusBadge from '@/components/tournaments/status-badge';
+import TeamList from '@/components/tournaments/team-list';
+import WinnerCard from '@/components/tournaments/winner-card';
+import { Button } from '@/components/ui/button';
+import { Collapsible } from '@/components/ui/collapsible';
+import { dashboard } from '@/routes';
+import tournaments from '@/routes/tournaments';
+import type { FinalScore, Tournament, TournamentStatus } from '@/types';
 
 export default function TournamentPage({
     tournament,
