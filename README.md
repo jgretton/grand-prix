@@ -73,12 +73,15 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-3. Run migrations and start the server
+3. Run migrations, seed a user, and start the server
 
 ```bash
 php artisan migrate
+php artisan db:seed
 composer run dev
 ```
+
+Registration is disabled. The seeder creates a default account (`test@example.com` / `password`) and seeds 30 players so you have data to work with straight away.
 
 <br>
 
