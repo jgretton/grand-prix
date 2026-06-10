@@ -31,7 +31,7 @@ export type RoundScore = {
     id?: number;
     team_id: number;
     round_id?: number;
-    score: number;
+    score: string;
 };
 export type FinalScore = {
     team: Team;

@@ -1,7 +1,7 @@
+import type { Round, RoundScore, Tournament } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { Loader2Icon, PlusIcon, XIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import type { Round, RoundScore, Tournament } from '@/types';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import {
@@ -34,7 +34,7 @@ export default function ScoringGrid({
     const upsertScore = (
         roundScores: RoundScore[],
         teamId: number,
-        score: number,
+        score: string,
     ) => {
         const newArray = roundScores.some((rs) => rs.team_id === teamId)
             ? roundScores.map((rs) =>
@@ -68,7 +68,7 @@ export default function ScoringGrid({
                       round_scores: upsertScore(
                           round.round_scores,
                           teamId,
-                          Number(e.target.value),
+                          e.target.value,
                       ),
                   }
                 : round,
@@ -93,15 +93,11 @@ export default function ScoringGrid({
         let score = 0;
 
         data.rounds.forEach((round) => {
-            let teamScore = round.round_scores.find(
+            const teamScore = round.round_scores.find(
                 (team) => team.team_id === teamId,
             )?.score;
 
-            if (isNaN(teamScore as number)) {
-                teamScore = 0;
-            }
-
-            score += Number(teamScore);
+            score += Number(teamScore ?? 0);
         });
 
         if (isNaN(score)) {
@@ -224,6 +220,8 @@ export default function ScoringGrid({
                                         >
                                             <Input
                                                 type="number"
+                                                inputMode="numeric"
+                                                pattern="[0-9]*"
                                                 className={`rounded-sm border-2 px-2 py-0.5 text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none ${(errors[`rounds.${idx}.round_scores`] || errors[`rounds.${idx}.round_scores.${team.id}`]) && 'border-red-500'} mx-auto w-20 text-center`}
                                                 value={teamScore ?? ''}
                                                 onChange={(e) =>

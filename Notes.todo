@@ -1,95 +1,31 @@
-Bugs:
-    ✔ When creating a new season that is not set as current, it will change the current season to false. @done(26-05-07 13:50)
-
-To Implement:
-    ☐ Validation of query request.
-        - need to validate the query string on dashboard for season id. This way we are secure against bad actors.
-    ✔ On tournament submission, if an empty team is submitted, it needs to be removed and not submitted. in the event of this, we then need to check the team names and re assign if a middle team is empty. @done(26-05-10 18:05)
-        - this was already there with the validation of teams requiring players.
-
-    
-Features:
- ☐ handle what happens when 2 teams have the same score! so i should return new finalscores with field rank so i can show order.
- ☐ need to think about pagination for the tournament and player page (look into infinite scroll)
-    - player page needs filtering for active and inactive.
-
-Application:
-
-Dashboard:
-    ☐ sseason selector is off screen when name is small. width problem maybe?
-
-Tournament create:
-    
-
-
-Tournemtnt index:
-    ☐ need to make the center sections scrollable for mobile in scoring table
-    ☐ allow editing of teams on tournament page.
-
-
-
-13.05.26:
-    ✔ Think about the data structure for  keeping the round scores. @done(26-05-13 12:07)
-    ✔ write test for creating and deleting rounds @done(26-05-13 12:07)
-    ✔ test for scoring a round. @done(26-05-13 15:22)
-    
-14.05.26:
-     ✔ add round will auto add a round to the back end. Look into use memo for front end to stop page refresh. @started(26-05-14 09:14) @done(26-05-14 09:59) @lasted(45m17s)
-    ✘ when unfocus scores, send data to backen if number is different and input is not empty. check - post for first time, patch for updates. @started(26-05-14 10:00) @cancelled(26-05-14 11:07) @wasted(1h7m29s)
-    Rework tournament score submissions:
-        ✔ Write tests for submitting tournament scores. @started(26-05-14 11:34) @done(26-05-14 12:10) @lasted(36m55s)
-        ☐ Write validation test
-        ☐ Implement Logic
-        ✔ Clean up unused controllers - Round, RoundScore. Clean up Web.php @done(26-05-14 13:41)
-        ✔ Implement front end @started(26-05-14 13:41) @done(26-05-14 16:02) @lasted(2h21m1s)
-        ☐ Pretty up the front end, componentise the table so can be shown when complete.
-            ✔ added state for status of tournament. Displayed different sections depending on state. @done(26-05-18 13:07)
-            - update table visuals
-                - need to make the center sections scrollable for mobile.
-            - add completed state that shows the tournament in winning order, maybe player names below the team names?
-        ☐ Look into adding Zustand?
-    ✔ calculate scores at the end of the table. @done(26-05-18 11:41)
-    ✔ final scores to be calculated and sent to backend on completion of tournament. @done(26-05-21 12:39)
-    ✔ add boolean to tournament for completed. If no, show table of inputs, if yes show fixed data table. @done(26-05-21 12:39)
-
-19.05.26:
-    ✔ When tournament is completed, return modified data to show winning table. @done(26-05-20 10:53)
-    ✔ When submitting tournament results, we need to show a visual then move to completed and refresh the page. At the moment when submitted nothing happens, then you click again and it errors as data already exists. @done(26-05-20 10:53)
-    ✔ added state for status of tournament. Displayed different sections depending on state. @done(26-05-18 13:07)
-    ✔ update table visuals @done(26-05-20 10:54)
-    ✔ add completed state that shows the tournament in winning order, maybe player names below the team names? @done(26-05-20 10:54)
-    
-    
-20.05.26:
-    Dashboard:
-        ✔ Make season selector mobile responsive @done(26-05-20 11:54)
-        ✔ In the season select add an indicator for the curent season. @done(26-05-20 11:54)
-        ✔ When no season exists, first seaons creation is set to current season. (checkbox will be ticked and cannot be unticked.) @done(26-05-20 12:16)
-        ✔ filter completed tournaments and not started ones. @done(26-05-20 13:08)
-    Delete Modal:
-        ✔ update ui, error message is under the button and not in a good place. (delete current season to see this) @done(26-05-20 12:32)
-22.05.26:
-    ✔ front end error handling for tournament submission. @done(26-05-22 14:42)
-    ✔ Componantise the tournament index page. @done(26-05-22 14:42)
-    ✔ out of sync data on form submission. setData is being called at the same time as the post so data is not synced up. @done(26-05-22 15:16)
-    ✔ ui is not response enough. @done(26-05-22 15:16)
-    ✔ cannot create tournament with a single team. @done(26-05-22 15:16)
-    ✔ Think about how user can edit teams in tournament index. @done(26-05-22 15:16)
-    ✔ add teams at bottom of completed page @done(26-05-22 15:16)
+feat/scoring-and-display:
+    ☐ Handle tied team scores - return rank field from backend so front end can display order.
+    ☐ Scoring inputs must be number type only.
+    ☐ When input exited with no score, default to empty not 0.
+    ☐ Validation of query request - validate season id query string on dashboard against bad actors.
+    ☐ Validation test suite for tournament submission (one test currently failing).
     ☐ Build test suite for adding player_scores.
-    // upon tournament submission we calculate the player scores. 
-    // need a list of all player who are active but did not attend then calculate their absent score.
+    ☐ Leaderboard page showing all player scores for the season with running total.
+    ☐ Public leaderboard page (unauthenticated route).
+    ☐ Show absent indicator on leaderboard for tournaments a player missed.
+    ☐ Leaderboard table visual tidy.
+    ☐ Skeleton loading across the app for faster perceived page loads.
+    ☐ Add stat cards to players page - total player count, total inactive count.
+        ☐ Season selector goes off screen when name is short - fix width.
 
+feat/player-profile:
+    ☐ Single player view showing all tournament data for selected season.
+    ☐ Stats: how many attended, how many missed, average points per tournament.
+    ☐ Some form of analytics maybe?
 
-27.05.26:
-    ✔ Update lowest attended score to calculate absent score of -10 their lowest attended score. - renamed to unattendedScore. @done(26-05-27 10:34)
-    ✔ Test for unattendedScore @done(26-05-27 11:06)
-    ✔ Add unique constraint as only one score per player is submitted per tournament. Added validation check for if tournament is complete, to stop double submits. @done(26-05-27 11:06)
-    ✔ Infinite scroll for players page. @done(26-05-27 12:08)
-        - add total player count to player page.
-    ☐ Validation test suite for tournament submission.
-        - one test failing.
-    ☐ single player view with all of their tournament data from selected season.
-        - information on how many they missed this season? how many attended? average points per tournament.
-    ☐ Leaderboard page showing all scores for that season and total so far. 
-    ☐ public leaderboard page.
+feat/ui-polish:
+    ☐ Re-enable dark mode (code was preserved when disabled).
+    ☐ Respect system preference and allow manual toggle.
+    ☐ General visual update pass across the app.
+
+feat/multi-tenant:
+    ☐ Multi tenant support - allow multiple leagues/groups to use the app independently.
+
+ideas:
+    ☐ End-of-season summary page: most wins, most absences, most improved, highest single score.
+    ☐ Mark a season as ended and lock it from further edits.
