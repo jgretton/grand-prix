@@ -33,7 +33,7 @@ class Player extends Model
 
     public function unattendedScore(): int
     {
-        $lowestScore = PlayerScore::where('player_id', $this->id)->where('attended', true)->orderByDesc('score')->value('score');
+        $lowestScore = PlayerScore::where('player_id', $this->id)->where('attended', true)->orderBy('score', 'asc')->value('score');
 
         if ($lowestScore === null || $lowestScore <= 10) {
             return 0;

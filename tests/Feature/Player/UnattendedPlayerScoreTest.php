@@ -13,7 +13,7 @@ beforeEach(function () {
     $this->player = Player::factory()->create();
 });
 
-test('returns highest attended score minus ten', function () {
+test('returns lowest attended score minus ten', function () {
 
     PlayerScore::factory()->create([
         'player_id' => $this->player->id,
@@ -29,7 +29,7 @@ test('returns zero when player has no attended scores', function () {
     expect($this->player->unattendedScore())->toBe(0);
 });
 
-test('returns zero when highest attended score is exactly 10', function () {
+test('returns zero when lowest attended score is exactly 10', function () {
     PlayerScore::factory()->create([
         'player_id' => $this->player->id,
         'tournament_id' => $this->tournament->id,
@@ -40,7 +40,7 @@ test('returns zero when highest attended score is exactly 10', function () {
     expect($this->player->unattendedScore())->toBe(0);
 });
 
-test('returns highest attended score minus ten when multiple scores exist', function () {
+test('returns lowest attended score minus ten when multiple scores exist', function () {
     PlayerScore::factory()->create([
         'player_id' => $this->player->id,
         'tournament_id' => $this->tournament->id,
@@ -60,10 +60,10 @@ test('returns highest attended score minus ten when multiple scores exist', func
         'score' => 15,
     ]);
 
-    expect($this->player->unattendedScore())->toBe(20);
+    expect($this->player->unattendedScore())->toBe(5);
 
 });
-test('returns zero when highest attended score is below ten', function () {
+test('returns zero when lowest attended score is below ten', function () {
     PlayerScore::factory()->create([
         'player_id' => $this->player->id,
         'tournament_id' => $this->tournament->id,
