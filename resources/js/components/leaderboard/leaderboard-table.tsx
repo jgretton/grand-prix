@@ -7,6 +7,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import type { Players, Tournament } from '@/types';
+import { UserX } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 const rankInsetShadow: Record<number, string> = {
     1: 'inset 4px 0 0 0 #fbbf24',
@@ -70,34 +72,71 @@ export default function LeaderboardTable({
                                 }}
                             >
                                 <div className="flex items-center gap-5">
-                                    {players[idx - 1]?.rank === player.rank ? (
-                                        <span className="h-7 w-7 shrink-0" />
-                                    ) : player.rank &&
-                                      rankBadge[player.rank] ? (
-                                        <span
-                                            className={`ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${rankBadge[player.rank]}`}
-                                        >
-                                            {player.rank}
-                                        </span>
-                                    ) : (
-                                        <span className="ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center text-sm text-muted-foreground">
-                                            {player.rank}
-                                        </span>
-                                    )}
+                                    <span className="ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center">
+                                        {players[idx - 1]?.rank ===
+                                        player.rank ? (
+                                            <span className="h-7 w-7 shrink-0" />
+                                        ) : player.rank &&
+                                          rankBadge[player.rank] ? (
+                                            <span
+                                                className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${rankBadge[player.rank]}`}
+                                            >
+                                                {player.rank}
+                                            </span>
+                                        ) : (
+                                            <span className="ml-2 inline-flex h-7 w-7 shrink-0 items-center justify-center text-sm text-muted-foreground">
+                                                {player.rank}
+                                            </span>
+                                        )}
+                                    </span>
                                     {player.name}
                                 </div>
                             </TableCell>
                             {tournaments.map((t) => {
-                                const score = player.player_scores?.find(
+                                const playerScore = player.player_scores?.find(
                                     (p) => p.tournament_id === t.id,
-                                )?.score;
+                                );
+
+                                if (!playerScore) {
+                                    return (
+                                        <TableCell
+                                            key={t.id}
+                                            className="py-3 text-center tabular-nums"
+                                        >
+                                            -
+                                        </TableCell>
+                                    );
+                                }
+
+                                const { score, attended } = playerScore;
 
                                 return (
                                     <TableCell
                                         key={t.id}
-                                        className="py-3 text-center"
+                                        className="py-3 text-center tabular-nums"
                                     >
-                                        {score ?? '-'}
+                                        {attended ? (
+                                            score
+                                        ) : (
+                                            <span className="relative inline-block text-muted-foreground">
+                                                <Tooltip>
+                                                    <TooltipTrigger>
+                                                        {score}
+                                                        <UserX
+                                                            aria-hidden
+                                                            className="absolute -top-1 -right-4 size-3.5"
+                                                        />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent>
+                                                        <p>
+                                                            Absence penalty (-10
+                                                            lowest attended
+                                                            score)
+                                                        </p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </span>
+                                        )}
                                     </TableCell>
                                 );
                             })}

@@ -1,5 +1,3 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarIcon, TrophyIcon } from 'lucide-react';
 import LeaderboardTable from '@/components/leaderboard/leaderboard-table';
 import {
     Empty,
@@ -11,6 +9,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { dashboard, login } from '@/routes';
 import type { Players, Season, Seasons, Tournament } from '@/types';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { CalendarIcon, TrophyIcon, UserXIcon } from 'lucide-react';
 
 export default function Welcome({
     tournaments,
@@ -140,10 +140,17 @@ export default function Welcome({
                                         </EmptyHeader>
                                     </Empty>
                                 ) : (
-                                    <LeaderboardTable
-                                        players={players}
-                                        tournaments={tournaments}
-                                    />
+                                    <div>
+                                        <p className="pt-10 pb-5 pl-2 text-sm text-muted-foreground">
+                                            <UserXIcon className="mr-1 inline-block size-4 align-middle" />
+                                            = Absence penalty (lowest attended
+                                            score -10)
+                                        </p>
+                                        <LeaderboardTable
+                                            players={players}
+                                            tournaments={tournaments}
+                                        />
+                                    </div>
                                 )}
                             </div>
                         </>
