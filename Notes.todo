@@ -1,15 +1,17 @@
 feat/scoring-and-display:
-    ☐ Handle tied team scores - return rank field from backend so front end can display order.
-    ☐ Scoring inputs must be number type only.
-    ☐ When input exited with no score, default to empty not 0.
+    ✔ Handle tied team scores - return rank field from backend so front end can display order. @started(26-06-09 15:04) @done(26-06-09 15:42) @lasted(38m56s)
+        Solution: map over the results and check how many existed with the highest score, return an array of strings for team names. 
+    ✔ Scoring inputs must be number type only. @done(26-06-09 20:41)
+    ✔ When input exited with no score, default to empty not 0. @done(26-06-09 21:09)
+        Solution: store the input value as a string in state instead of a number, only converting to a number when calculating totals. This way, an empty input stays empty ("") rather than defaulting to 0. Extra input props added, apparently they are redundent but lets test them - inputMode="numeric" pattern="[0-9]*"
+    ☐ Show absent indicator on leaderboard for tournaments a player missed.
+    ☐ Skeleton loading across the app for faster perceived page loads.
     ☐ Validation of query request - validate season id query string on dashboard against bad actors.
     ☐ Validation test suite for tournament submission (one test currently failing).
     ☐ Build test suite for adding player_scores.
     ☐ Leaderboard page showing all player scores for the season with running total.
     ☐ Public leaderboard page (unauthenticated route).
-    ☐ Show absent indicator on leaderboard for tournaments a player missed.
     ☐ Leaderboard table visual tidy.
-    ☐ Skeleton loading across the app for faster perceived page loads.
     ☐ Add stat cards to players page - total player count, total inactive count.
         ☐ Season selector goes off screen when name is short - fix width.
 
